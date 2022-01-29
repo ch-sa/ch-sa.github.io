@@ -5,7 +5,7 @@ title: Projects
 ## labelCloud
 labelCloud is lightweight annotation tool to label objects in point clouds with 3D bounding boxes.
 
-![Screenshot of labelCloud](images/labelCloud.jpg)
+![Screenshot of labelCloud](/assets/img/labelCloud.jpg)
 
 ### Main Features
 1. Direct labeling of rotated objects inside the point cloud
