@@ -12,6 +12,8 @@ plugins:
 
 # CUSTOM SETTINGS
 
+base_url: /ch-sa
+
 github:
   is_project_page: false
 
