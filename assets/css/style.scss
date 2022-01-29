@@ -3,6 +3,10 @@
 
 @import "{{ site.theme }}";
 
+body {
+	color: #333;
+}
+
 .page-header {
 	color: #fff;
 	text-align: center;
@@ -13,3 +17,4 @@
 .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
 	color: #333;
 }
+

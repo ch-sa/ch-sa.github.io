@@ -14,3 +14,40 @@
     color: #fff;
     text-decoration: none;
 }
+
+img {
+    margin: auto;
+    display: block;
+    box-shadow:0 0 10px 5px #ccc;
+  }
+
+img + em {
+    opacity: 0.8;
+    font-size: 80%;
+    display: block;
+    text-align: center;
+}
+
+.warning {
+    color: #555;
+    background-color: #f7a7a3;
+    border-radius:5px;
+    box-shadow:0 0 15px 5px #ccc;
+    padding: 10px;
+    padding-left: 20px;
+    width: 95%;
+    margin: auto;
+    border-left:5px solid #c53932;
+}
+
+.info {
+    color: #555;
+    background-color: #98c5e27c;
+    border-radius:5px;
+    box-shadow:0 0 15px 5px #ccc;
+    padding: 10px;
+    padding-left: 20px;
+    width: 95%;
+    margin: auto;
+    border-left:5px solid #3ba1e6;
+}
