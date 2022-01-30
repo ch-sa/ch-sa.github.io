@@ -13,7 +13,7 @@ plugins:
 
 # CUSTOM SETTINGS
 
-base_url: /ch-sa
+base_url: /
 
 github:
   is_project_page: false
