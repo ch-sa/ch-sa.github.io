@@ -5,12 +5,11 @@ date: 2022-01-22 20:35:00
 tags: PyQt Python Packaging labelCloud
 ---
 
-Warning, this is still work in progress!
-{: class="warning"}
-
-
 ![Jungle]({{site.baseurl}}/assets/img/2022-01-22_Djungle.jpg)
-*Picture taken from [Bruno Abdiel](https://www.pexels.com/de-de/@phototrackbr?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) via [Pexels](https://www.pexels.com/de-de/foto/leere-braune-holzfussbrucke-236412/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)*
+*Picture by [Bruno
+Abdiel](https://www.pexels.com/de-de/@phototrackbr?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
+via
+[Pexels](https://www.pexels.com/de-de/foto/leere-braune-holzfussbrucke-236412/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)*
 
 
 Recently I was struggling to package my PyQt software
@@ -28,9 +27,9 @@ for packaging. Looking at some of the rather popular Python packages like
 [`numpy`](https://github.com/numpy/numpy),
 [`pandas`](https://github.com/pandas-dev/pandas) or
 [`requests`](https://github.com/psf/requests) we see that there is a consensus at least
-about the top level structure. All projects have folder with the same name as the future
-package and repository. So go ahead and do the same and also add an `__init__.py` and a
-`__main__.py` file in that folder. For labelCloud this ended up looking like that:
+about the top-level structure. All projects have a folder with the same name as the
+future package and repository. So go ahead and do the same and also add an `__init__.py`
+and a `__main__.py` file in that folder. For labelCloud this ended up looking like that:
 
 {% highlight shell %}
 labelCloud
@@ -57,7 +56,7 @@ all lowercase (see [PEP
 
 Once you start releasing your package, this should be [reasonably
 versioned](https://www.python.org/dev/peps/pep-0440/#version-scheme), usually in the
-`major.minor.patch` scheme. This version is specified in the top level
+`major.minor.patch` scheme. This version is specified in the top-level
 [`__init__.py`](https://github.com/ch-sa/labelCloud/blob/master/labelCloud/__init__.py)
 file:
 
@@ -68,11 +67,11 @@ __version__ = "0.7.3"
 
 Now people can retrieve the version of your package by calling `labelCloud.__version__`.
 
-The `__main__.py` file is now used as *entrypoint* to your package. It will be called
-whenever somebody runs your package using `python -m labelCloud`. Consequently it should
-contain all the logic to correctly startup your software. However it should not be
-massive and mostly delegate to logic within your package. It can also handle arguments
-that were passed with the call:
+The `__main__.py` file is now used as an *entry point* to your package. It will be
+called whenever somebody runs your package using `python -m labelCloud`. Consequently,
+it should contain all the logic to correctly startup your software. However, it should
+not be massive and mostly delegate to logic within your package. It can also handle
+arguments that were passed with the call:
 
 {% highlight python %}
 # labelCloud/main.py
@@ -108,8 +107,8 @@ if __name__ == "__main__":
 {% endhighlight %}
 
 Note that the imports inside the `__main__.py` are still absolute. Within the rest of
-the package however you should try to reference to your own in relative syntax like
-`from .view.gui import GUI`.
+the package, however, you should try to reference your own modules using a relative
+syntax like `from .view.gui import GUI`.
 
 ## Configuring the Package
 
@@ -139,8 +138,12 @@ inside numpy](https://github.com/numpy/numpy/blob/main/setup.py) or the [653 lin
 inside pandas](https://github.com/pandas-dev/pandas/blob/main/setup.py) you might be
 tempted to turn around and tell everyone to continue using `git clone`. 😀 ... but fear
 not, getting a simple package running usually requires a fraction of that effort!
+Yet maybe lets breathe some wisdom first:
 
-Actually we just need two lines here:
+> The only thing that we know is that we know nothing – and that is the highest flight
+> of human wisdom. – *War & Peace, Leo Tolstoy (1869)*
+
+Actually, we just need two lines here:
 
 {% highlight python %}
 # setup.py
@@ -152,7 +155,7 @@ setup()
 That simple?? ... well we still lack the third file. For now we basically just postponed
 the pain into another file: the `setup.cfg`.
 
-In the end this file will hold all parameters to package and build your project. It is
+In the end, this file will hold all parameters to package and build your project. It is
 structured in multiple *sections*, of which we will be using the following:
 
 1. `[metadata]`
@@ -164,7 +167,7 @@ structured in multiple *sections*, of which we will be using the following:
 The **metadata** is the simplest section. Just enter the package `name` as in the
 repository and folder, provide `maintainer` and `license` details and add a short
 `description`. Then add `keywords` separated by a paragraph and add classifiers
-according to [this list](https://pypi.org/classifiers/). Also don't forget to link your
+according to [this list](https://pypi.org/classifiers/). Also, don't forget to link your
 repository or website using the `url` parameter.
 
 Now PyPI also offers the possibility to visualize a longer description on each project
@@ -183,23 +186,23 @@ something like `https://raw.githubusercontent.com/ch-sa/labelCl...png`.
 
 One of the nicer conveniences of the `setup.cfg` way is that you can automatically
 derive the package version from your `labelCloud/__init__.py` file using `version =
-attr: labelCloud.__version__`. Thus you have one place less where you could forget about
-that. ... you know it was a problem, when there is a [whole site in the Python docs
-dedicated to getting a single
+attr: labelCloud.__version__`. Thus you have one place less where you could forget
+bumping the version ... you know it was a problem when there is a [whole site in the
+Python docs dedicated to getting a single
 string](https://packaging.python.org/en/latest/guides/single-sourcing-package-version/).
 😉
 
 Okay, now that we have the metadata sorted out, let's start with the real stuff:
-**options**. There are a number of options we have to set correctly so that the package
-is later build correctly and all relevant files are considered. If you have problems
-understanding a keyword, take a look at the [official setuptools
+**options**. There are a whole bunch of options we have to set correctly so that the
+package is later built correctly and all relevant files are considered. If you have
+problems understanding a keyword, take a look at the [official setuptools
 reference](https://setuptools.pypa.io/en/latest/references/keywords.html).
 
 First of all, we need to specify all packages that should be included. A package is
-every folder that contains an `__init__.py` file. You do that by simply adding a point
-separated path for every such folder to the `packages` parameter starting with the
+every folder that contains an `__init__.py` file. You do that by simply adding a
+point-separated path for every such folder to the `packages` parameter starting with the
 folder you created in the [first section](#adjusting-the-package-structure).
-Alternatively you can also use `setuptools` automatic package discovery by using:
+Alternatively, you can also use `setuptools` automatic package discovery by using:
 
 {% highlight conf %}
 # setup.cfg
@@ -209,11 +212,11 @@ package_dir =
 [...]
 {% endhighlight %}
 
-Personally I prefer to set them manually to have a bit more control about what's
+Personally, I prefer to set them manually to have a bit more control about what's
 included.
 
-Do signify with which Python versions your software is compatible you should also set
-the `python_requires` parameter. Set it as flexible as possible using [version
+The `python_requires` parameter signifie with which Python versions your software is
+compatible. You should try to set it as flexible as possible using [version
 specifiers](https://www.python.org/dev/peps/pep-0440/#version-specifiers):
 
 {% highlight conf %}
@@ -238,9 +241,9 @@ install_requires =
 As you can see in the last two lines it is also possible to [specify dependencies based
 on the user's
 platform](https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#platform-specific-dependencies).
-In this case a windows user will pull version 5.14.1 or smaller of PyQt, while all other
-platform users can use the most recent version. You can find an overview of all markers
-and operators in [PEP 508](https://www.python.org/dev/peps/pep-0508/#id14).
+In this case, a windows user will pull version 5.14.1 or smaller of PyQt, while all
+other platform users can use the most recent version. You can find an overview of all
+markers and operators in [PEP 508](https://www.python.org/dev/peps/pep-0508/#id14).
 
 
 Take care that you don't include dependencies into the `install_requires` that are only
@@ -261,12 +264,12 @@ square brackets:
 pip install labelCloud[tests]  # will also install pytest and pytest-qt
 {% endhighlight %}
 
-Note however, that if there are other people participating in the development it makes
+Note, however, that if other people are participating in the development it makes
 sense to "freeze" all dependencies and provide them in a separate `requirements.txt`. 
 
 Remember the `__main__.py` that we [created at the
 beginning](#adjusting-the-package-structure)? We already mentioned it will be the
-entrypoint into the package. We now have to specify that here as well:
+entry point into the package. We now have to specify that here as well:
 
 {% highlight conf%}
 # setup.cfg
@@ -275,19 +278,19 @@ console_scripts =
     labelCloud = labelCloud.__main__:main
 {% endhighlight %}
 
-Actually a package have multiple entry points, yet I decided here just for a single one
-and therefore named it same as the package: `labelCloud`. It will be available globally
-within your Python environment. This means that users can start your software from
-everywhere with a simple shell command!
+Actually, a package can have multiple entry points, yet I decided here just for a single
+one and therefore named it the same as the package: `labelCloud`. It will be available
+globally within your Python environment. This means that users can start your software
+from everywhere with a simple shell command!
 
-On the other hand this also means you cannot be sure about relative paths for the files
+On the other hand, this also means you cannot be sure about relative paths for the files
 that you use in your software, which brings us to the next section ...
 
 
 ## Managing Package Resources
 
 Now that users can start your software from literally everywhere we cannot rely on a
-fixed folder structure like before. We therefore have to find a better way of accessing
+fixed folder structure like before. Hence, we have to find a better way of accessing
 files than relative paths.
 
 For the moment `setuptools` will simply ignore your data files. To make them visible we
@@ -296,9 +299,9 @@ need to do something weird and pretend that the data folders are also packages b
 [`labelCloud/resources`](https://github.com/ch-sa/labelCloud/tree/master/labelCloud/resources)
 folder which is collecting all data files.
 
-We tell `setuptools` to retrieve these files by adding the folder locations in the Python
-dot-syntax to the `options.package_data` section and specifying which file types should
-be considered (alternatively `*` for all):
+We tell `setuptools` to retrieve these files by adding the folder locations in the
+Python dot-syntax to the `options.package_data` section and specifying which file types
+should be considered (alternatively `*` for all):
 
 {% highlight conf%}
 # setup.cfg
@@ -310,13 +313,14 @@ labelCloud.resources.interfaces = *.ui
 {% endhighlight %}
 
 Now all these files will also be packaged and uploaded to PyPI. The only problem is that
-upon install they will be extracted into different places than your current project
+upon installation they will be extracted into different places than your current project
 structure. This means we need a [way to get the paths of files during
 runtime](https://setuptools.pypa.io/en/latest/userguide/datafiles.html#accessing-data-files-at-runtime).
 This is where `pkg_resources` comes into play.
 
 Via the `resource_filename()` function you get the path to a desired file by providing
-it's name and import path in dot-syntax. In the following example I retrieve the PyQt UI file, which was previously located at `labelCloud/resources/interfaces/interface.ui`:
+its name and import path in dot-syntax. In the following example, I retrieve the PyQt UI
+file, which was previously located at `labelCloud/resources/interfaces/interface.ui`:
 
 {% highlight python%}
 import pkg_resources
@@ -346,7 +350,7 @@ Congratulations, you already passed the most cumbersome section and are slowly e
 the final sprint – [building your
 package](https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives).
 
-First of all you need to have a modern version of PyPA's `build` installed:
+First of all, you need to have a modern version of PyPA's `build` installed:
 {% highlight shell%}
 python3 -m pip install --upgrade build
 {% endhighlight %}
@@ -375,13 +379,13 @@ directory:
 
 ## Publishing to PyPI
 
-The upload to PyPI is even simpler. However, you should really consider to test your
-package on TestPyPI first before you go on and upload to the official PyPI. From my
-experience there will be always something wrong with the initial packaging attempt ...
+The upload to PyPI is even simpler. However, you should really consider to testing your
+package on TestPyPI first before you go on and upload it to the official PyPI. From my
+experience, there will be always something wrong with the initial packaging attempt ...
 and a lot of times also the second and third. 😉
 
 So go and register for [TestPyPI](https://test.pypi.org/account/register/) and
-afterwards [PyPI](https://pypi.org/account/register/). In the settings you need to
+afterward [PyPI](https://pypi.org/account/register/). In the settings, you need to
 generate a token and keep it open.
 
 Now you have to install twine and try your first upload:
@@ -395,5 +399,15 @@ Once your test upload and
 [installation](https://packaging.python.org/en/latest/tutorials/packaging-projects/#installing-your-newly-uploaded-package)
 worked flawlessly you can simply drop the `--repository testpypi` to upload to PyPI.
 
-If everything worked well, you should now be able to see your Python package on it's own
+If everything worked well, you should now be able to see your Python package on its own
 [PyPI project page](https://pypi.org/project/labelCloud/). 🎉
+
+And if you didn't get lost on the way, you might have made it out of the Python
+Packaging Jungle ...
+
+![Jungle Escape]({{site.baseurl}}/assets/img/2022-01-30_DjungleEscape.jpg)
+*Picture by [Quang Nguyen Vinh](https://www.pexels.com/de-de/@quang-nguyen-vinh-222549?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)
+via
+[Pexels](https://www.pexels.com/de-de/foto/2-leute-auf-dem-boot-2166711/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)*
+
+... entering the rapids of releasing and package maintenance.
