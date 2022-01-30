@@ -9,7 +9,7 @@ Warning, this is still work in progress!
 {: class="warning"}
 
 
-![Djungle](/assets/img/2022-01-22_Djungle.jpg)
+![Djungle]({{site.baseurl}}/assets/img/2022-01-22_Djungle.jpg)
 *Picture taken from [Bruno Abdiel](https://www.pexels.com/de-de/@phototrackbr?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels) via [Pexels](https://www.pexels.com/de-de/foto/leere-braune-holzfussbrucke-236412/?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels)*
 
 
