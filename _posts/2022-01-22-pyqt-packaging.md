@@ -48,9 +48,8 @@ This is the new package skeleton. While maybe before the root of the repository 
 entry point to your software this should now live inside the new folder. Everything
 within is considered for packaging while everything outside is not directly relevant.
 
-Note that contrary to the example Python modules and also PyPI packages should be named
-all lowercase (see [PEP
-8](https://www.python.org/dev/peps/pep-0008/#package-and-module-names) and [PEP
+Contrary to the example above Python modules and also PyPI packages should usually be
+named all *lowercase* (see [PEP 8](https://www.python.org/dev/peps/pep-0008/#package-and-module-names) and [PEP
 423](https://www.python.org/dev/peps/pep-0423/#follow-pep-8-for-syntax-of-package-and-module-names)).
 {: class="info"}
 
@@ -119,7 +118,7 @@ We start with the `pyproject.toml`, which tells pip what tools to use for buildi
 package. While you can read and [try](https://www.python.org/dev/peps/pep-0518/)
 [to](https://setuptools.pypa.io/en/latest/build_meta.html)
 [understand](https://www.python.org/dev/peps/pep-0621/) the background, you can also
-just paste the following and will be fine (as of 2022) for now:
+just paste the following and will be fine for now (as of 2022):
 
 {% highlight python %}
 # pyproject.toml
@@ -131,7 +130,12 @@ requires = [
 build-backend = "setuptools.build_meta"
 {% endhighlight %}
 
-<!-- TODO: Explain Setuptools -->
+This explains that we want to use
+[`setuptools`](https://packaging.python.org/en/latest/key_projects/#setuptools) (version
+42 or above) to build our project – the "primary choice for Python packaging" and
+require the [`wheel`
+extension](https://packaging.python.org/en/latest/specifications/binary-distribution-format/)
+to generate an installable `*.whl` file at the end.
 
 Now comes the magic of the legendary `setup.py` into play. Looking at the [465 lines
 inside numpy](https://github.com/numpy/numpy/blob/main/setup.py) or the [653 lines
@@ -215,7 +219,13 @@ package_dir =
 Personally, I prefer to set them manually to have a bit more control about what's
 included.
 
-The `python_requires` parameter signifie with which Python versions your software is
+The `zip_safe` parameter can be omitted or set to `False` to be on the safe side. It
+[allows the package to be installed as
+zip](https://setuptools.pypa.io/en/latest/userguide/miscellaneous.html#setting-the-zip-safe-flag)
+thus speeding up the load time. You can test yourself if the software still runs by
+setting it to `True` (If you don't use `__file__` it likely is!).
+
+The `python_requires` parameter signifies with which Python versions your software is
 compatible. You should try to set it as flexible as possible using [version
 specifiers](https://www.python.org/dev/peps/pep-0440/#version-specifiers):
 
@@ -288,6 +298,11 @@ that you use in your software, which brings us to the next section ...
 
 
 ## Managing Package Resources
+
+This section only covers the use of `pkg_resources` for retrieving files. Another valid
+alternative could be PyQt's native [Qt Resource
+System](https://doc.qt.io/qtforpython/overviews/resources.html).
+{: class="info"}
 
 Now that users can start your software from literally everywhere we cannot rely on a
 fixed folder structure like before. Hence, we have to find a better way of accessing
@@ -379,7 +394,7 @@ directory:
 
 ## Publishing to PyPI
 
-The upload to PyPI is even simpler. However, you should really consider to testing your
+The upload to PyPI is even simpler. However, you should really consider testing your
 package on TestPyPI first before you go on and upload it to the official PyPI. From my
 experience, there will be always something wrong with the initial packaging attempt ...
 and a lot of times also the second and third. 😉
@@ -402,7 +417,7 @@ worked flawlessly you can simply drop the `--repository testpypi` to upload to P
 If everything worked well, you should now be able to see your Python package on its own
 [PyPI project page](https://pypi.org/project/labelCloud/). 🎉
 
-And if you didn't get lost on the way, you might have made it out of the Python
+And if you did not get lost on the way, you might have made it out of the Python
 Packaging Jungle ...
 
 ![Jungle Escape]({{site.baseurl}}/assets/img/2022-01-30_DjungleEscape.jpg)
