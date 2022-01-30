@@ -9,6 +9,7 @@ github_username:  ch-sa
 theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
+  - jekyll-relative-links
 
 # CUSTOM SETTINGS
 

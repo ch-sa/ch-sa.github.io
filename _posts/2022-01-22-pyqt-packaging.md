@@ -2,7 +2,6 @@
 layout: post
 title: "PyQt & PyPI – Navigating the Python Packaging Djungle"
 date: 2022-01-22 20:35:00
-categories: software labelCloud
 tags: PyQt Python Packaging labelCloud
 ---
 
