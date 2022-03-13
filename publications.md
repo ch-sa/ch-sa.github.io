@@ -10,12 +10,12 @@ During my studies I published a number of academic papers, which are listed here
 ### labelCloud: A Lightweight Labeling Tool for Domain-Agnostic 3D Object Detection in Point Clouds
 * Christoph Sager, Patrick Zschech & Niklas Kühl
 * Computer-Aided Design and Applications (2021)
-* DOI: [10.14733/cadaps.2022.1191-1206](https://doi.org/10.14733/cadaps.2022.1191-1206)
-* PDF: http://cad-journal.net/files/vol_19/CAD_19(6)_2022_1191-1206.pdf
+* DOI: [10.14733/cadaps.2022.1191-1206](https://doi.org/10.14733/cadaps.2022.1191-1206) ([PDF](http://cad-journal.net/files/vol_19/CAD_19(6)_2022_1191-1206.pdf))
 * Presented at CAD 21 Conference (see [summary](https://doi.org/10.48550/arXiv.2103.04970))
+
 <img src="/assets/img/labelCloud.jpg" class="img" alt="labelCloud UI" width="700"/>
   
-
+---
 
 ### A survey of image labelling for computer vision applications
 * Christoph Sager, Christian Janiesch & Patrick Zschech
@@ -24,6 +24,7 @@ During my studies I published a number of academic papers, which are listed here
 
 <img src="/assets/img/publications_labeling-review.png" class="img" alt="Review of image labeling" width="700"/>
 
+---
 
 ### Mit Computer Vision zur automatisierten Qualitätssicherung in der industriellen Fertigung: Eine Fallstudie zur Klassifizierung von Fehlern in Solarzellen mittels Elektrolumineszenz-Bildern
 
