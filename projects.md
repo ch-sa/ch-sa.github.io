@@ -9,7 +9,7 @@ title: Projects
 ![GitHub Repo stars](https://img.shields.io/github/stars/ch-sa/labelCloud?style=social)
 
 
-labelCloud is lightweight annotation tool to label objects in point clouds with 3D bounding boxes.
+labelCloud is a lightweight annotation tool to label objects in point clouds with 3D bounding boxes.
 
 ![Screenshot of labelCloud](/assets/img/labelCloud.jpg)
 
