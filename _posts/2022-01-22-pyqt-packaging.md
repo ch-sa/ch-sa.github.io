@@ -71,7 +71,7 @@ The `__main__.py` file is now used as an *entry point* to your package. It will 
 called whenever somebody runs your package using `python -m labelCloud`. Consequently,
 it should contain all the logic to correctly startup your software. However, it should
 not be massive and mostly delegate to logic within your package. It can also handle
-arguments that were passed with the following call:
+arguments that were passed with the following script:
 
 {% highlight python %}
 # labelCloud/main.py
@@ -300,7 +300,7 @@ you use in your software, which brings us to the next section.
 ## Managing Package Resources
 
 This section only covers the use of `pkg_resources` for retrieving files. Another valid
-alternative could be PyQt's native [Qt Resouwhichrce
+alternative could be PyQt's native [Qt Resource
 System](https://doc.qt.io/qtforpython/overviews/resources.html).
 {: class="info"}
 
