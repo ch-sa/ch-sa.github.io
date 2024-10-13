@@ -14,13 +14,14 @@ labelCloud is a lightweight annotation tool to label objects in point clouds wit
 ![Screenshot of labelCloud](/assets/img/labelCloud.jpg)
 
 ### Main Features
-1. Direct labeling of rotated objects inside the point cloud
-2. Support of most common point cloud formats (`*.pcd`, `*.ply`, `*.pts`, `*.xyzrgb`, `*.xyz`, `*.xyzn`, `*.bin`)
-3. Possibility to export in many different label formats and units
-4. Easy to setup and few dependencies
+1. Direct labeling of rotated objects inside the point cloud.
+2. Support of most common point cloud formats (`*.pcd`, `*.ply`, `*.pts`, `*.xyzrgb`, `*.xyz`, `*.xyzn`, `*.bin`).
+3. Possibility to export in many different label formats and units.
+4. Easy to setup and few dependencies.
 
 
 ### Links
+* Documentation: [https://ch-sa.github.io/labelCloud/](https://ch-sa.github.io/labelCloud/)
 * GitHub Repository: [https://github.com/ch-sa/labelCloud](https://github.com/ch-sa/labelCloud)
 * PyPi Package: [https://pypi.org/project/labelCloud/](https://pypi.org/project/labelCloud/)
 * Academic Publication: [https://arxiv.org/abs/2103.04970](https://arxiv.org/abs/2103.04970)
