@@ -2,13 +2,8 @@
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
     <meta charset="UTF-8">
-
-{% seo %}
-    <link href="https://social.tchncs.de/@ch_sager" rel="me">
-    <link rel="alternate" 
-		type="application/atom+xml" 
-		title="Christoph's Blog" 
-		href="https://ch-sa.github.io/feed.xml">
+    {% seo %}
+    {% include head-shared.html %}
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
     <meta name="viewport" content="width=device-width, initial-scale=1">
