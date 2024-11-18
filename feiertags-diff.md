@@ -135,17 +135,18 @@ title: Feiertags Diff
     }
     .horizontal-checkboxes label {
         display: flex;
-        align-items: center;
         gap: 5px;
-        /* min-width: 200px; */
-        padding-top: 0;
+
     }
     .next-holiday {
         margin: 20px 0;
         background-color: #f0f7fb;
         border-left: 5px solid #3498db;
         padding: 15px;
+        padding-right: 25px;
         border-radius: 3px;
+        display: inline-block;
+        max-width: 100%;
     }
     .warning-icon {
         color: #d9534f;
@@ -273,11 +274,19 @@ title: Feiertags Diff
       !holidays[state].some(holiday => holiday.date === nextHoliday.date)
     );
 
+    const formatStateList = (states) => {
+      if (states.length === 0) return '';
+      if (states.length === 1) return states[0];
+      const lastState = states[states.length - 1];
+      const otherStates = states.slice(0, -1);
+      return `${otherStates.join(', ')} oder ${lastState}`;
+    };
+
     const nextHolidayDiv = document.getElementById('next-holiday');
     nextHolidayDiv.innerHTML = `
       Nächster Feiertag ist <strong>${nextHoliday.name} am ${nextHoliday.date}</strong>
-      ${statesWithHoliday.length ? `in ${statesWithHoliday.map(state => `${state} 😎`).join(', ')}` : ''}
-      ${statesWithoutHoliday.length ? `und nicht in ${statesWithoutHoliday.map(state => `${state} 👨‍💻`).join(', ')}` : ''}.
+      ${statesWithHoliday.length ? `in ${formatStateList(statesWithHoliday.map(state => `${state} 😎`))}` : ''}
+      ${statesWithoutHoliday.length ? `und nicht in ${formatStateList(statesWithoutHoliday.map(state => `${state} 👨‍💻`))}` : ''}.
     `;
   }
 
