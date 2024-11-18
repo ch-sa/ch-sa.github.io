@@ -101,8 +101,54 @@ title: Feiertags Diff
   let holidays = {};
 
   async function fetchHolidays() {
-    const response = await fetch('public-holidays.json');
-    holidays = await response.json();
+    const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/2024/DE');
+    const data = await response.json();
+    
+    // Create a mapping of state codes to full names
+    const stateMapping = {
+      'DE-BY': 'Bayern',
+      'DE-BE': 'Berlin',
+      'DE-SN': 'Sachsen',
+      'DE-NW': 'Nordrhein-Westfalen'
+    };
+
+    // Initialize holidays object
+    holidays = Object.values(stateMapping).reduce((acc, state) => {
+      acc[state] = [];
+      return acc;
+    }, {});
+
+    // Transform API data into required format
+    data.forEach(holiday => {
+      const holidayData = {
+        date: holiday.date,
+        name: holiday.localName
+      };
+
+      // If holiday is global, add it to all states
+      if (holiday.global) {
+        Object.keys(holidays).forEach(state => {
+          holidays[state].push({...holidayData});
+        });
+        return;
+      }
+
+      // Add holiday to specific states
+      if (holiday.counties) {
+        holiday.counties.forEach(county => {
+          const stateName = stateMapping[county];
+          if (stateName && holidays[stateName]) {
+            holidays[stateName].push({...holidayData});
+          }
+        });
+      }
+    });
+
+    // Sort holidays by date for each state
+    Object.keys(holidays).forEach(state => {
+      holidays[state].sort((a, b) => a.date.localeCompare(b.date));
+    });
+
     compareHolidays();
   }
 
