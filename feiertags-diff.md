@@ -31,6 +31,7 @@ title: Feiertags Diff
   <table id="holidays-table">
     <thead>
       <tr>
+        <th>Date</th>
         <th id="base-state-header">Base State Holidays</th>
         <!-- Compare state headers will be dynamically added here -->
       </tr>
@@ -63,7 +64,7 @@ title: Feiertags Diff
         background-color: #f6f8fa;
     }
     tr:nth-child(odd) {
-        background-color: #f6f8fa;
+        background-color: #fafafa;
     }
     .added {
         background-color: #e6ffed;
@@ -86,6 +87,10 @@ title: Feiertags Diff
     .next-holiday {
         margin: 20px 0;
         font-style: italic;
+    }
+    .warning-icon {
+        color: #d9534f;
+        margin-left: 5px;
     }
 </style>
 <script>
@@ -149,7 +154,7 @@ title: Feiertags Diff
 
     holidaysTableBody.innerHTML = '';
     baseStateHeader.textContent = `Current: ${baseState}`;
-    holidaysTableHead.innerHTML = `<th id="base-state-header">Current: ${baseState}</th>`;
+    holidaysTableHead.innerHTML = `<th>Date</th><th id="base-state-header">Current: ${baseState}</th>`;
 
     // Remove the base state from the compare states if it is selected
     compareStates = compareStates.filter(state => state !== baseState);
@@ -171,28 +176,41 @@ title: Feiertags Diff
       const tr = document.createElement('tr');
       const baseHoliday = baseHolidays.find(h => h.date === date);
       const baseTd = document.createElement('td');
+      const dateTd = document.createElement('td');
+      dateTd.textContent = date;
+
+      let hasDiff = false;
+
       if (baseHoliday) {
-        baseTd.textContent = `${baseHoliday.date} - ${baseHoliday.name}`;
+        baseTd.textContent = `${baseHoliday.name}`;
       } else {
         baseTd.textContent = 'Kein Feiertag';
         baseTd.classList.add('removed');
+        hasDiff = true;
       }
+      tr.appendChild(dateTd);
       tr.appendChild(baseTd);
 
       compareStates.forEach(state => {
         const td = document.createElement('td');
         const stateHoliday = holidays[state].find(h => h.date === date);
         if (stateHoliday) {
-          td.textContent = `${stateHoliday.date} - ${stateHoliday.name}`;
+          td.textContent = `${stateHoliday.name}`;
           if (!baseHoliday) {
             td.classList.add('added');
+            hasDiff = true;
           }
         } else {
           td.textContent = 'Kein Feiertag';
           td.classList.add('removed');
+          hasDiff = true;
         }
         tr.appendChild(td);
       });
+
+      if (hasDiff) {
+        dateTd.innerHTML += ' <span class="warning-icon">⚠️</span>';
+      }
 
       holidaysTableBody.appendChild(tr);
     });
