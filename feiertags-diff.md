@@ -5,21 +5,43 @@ title: Feiertags Diff
 <div>
   <label for="base-state">Current:</label>
   <select id="base-state" name="base-state" onchange="compareHolidays()">
+    <option value="Baden-Württemberg">Baden-Württemberg</option>
     <option value="Bayern">Bayern</option>
     <option value="Berlin">Berlin</option>
-    <option value="Sachsen">Sachsen</option>
+    <option value="Brandenburg">Brandenburg</option>
+    <option value="Bremen">Bremen</option>
+    <option value="Hamburg">Hamburg</option>
+    <option value="Hessen">Hessen</option>
+    <option value="Mecklenburg-Vorpommern">Mecklenburg-Vorpommern</option>
+    <option value="Niedersachsen">Niedersachsen</option>
     <option value="Nordrhein-Westfalen">Nordrhein-Westfalen</option>
-    <!-- Add more states as needed -->
+    <option value="Rheinland-Pfalz">Rheinland-Pfalz</option>
+    <option value="Saarland">Saarland</option>
+    <option value="Sachsen">Sachsen</option>
+    <option value="Sachsen-Anhalt">Sachsen-Anhalt</option>
+    <option value="Schleswig-Holstein">Schleswig-Holstein</option>
+    <option value="Thüringen">Thüringen</option>
   </select>
 </div>
 <div class="horizontal-checkboxes">
   <label for="compare-states">Incoming:</label>
   <div id="compare-states" class="horizontal-checkboxes">
+    <label><input type="checkbox" name="compare-state" value="Baden-Württemberg" onchange="compareHolidays()"> Baden-Württemberg</label>
     <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
-    <label><input type="checkbox" name="compare-state" value="Sachsen" onchange="compareHolidays()"> Sachsen</label>
+    <label><input type="checkbox" name="compare-state" value="Brandenburg" onchange="compareHolidays()"> Brandenburg</label>
+    <label><input type="checkbox" name="compare-state" value="Bremen" onchange="compareHolidays()"> Bremen</label>
+    <label><input type="checkbox" name="compare-state" value="Hamburg" onchange="compareHolidays()"> Hamburg</label>
+    <label><input type="checkbox" name="compare-state" value="Hessen" onchange="compareHolidays()"> Hessen</label>
+    <label><input type="checkbox" name="compare-state" value="Mecklenburg-Vorpommern" onchange="compareHolidays()"> Mecklenburg-Vorpommern</label>
+    <label><input type="checkbox" name="compare-state" value="Niedersachsen" onchange="compareHolidays()"> Niedersachsen</label>
     <label><input type="checkbox" name="compare-state" value="Nordrhein-Westfalen" onchange="compareHolidays()"> Nordrhein-Westfalen</label>
-    <!-- Add more states as needed -->
+    <label><input type="checkbox" name="compare-state" value="Rheinland-Pfalz" onchange="compareHolidays()"> Rheinland-Pfalz</label>
+    <label><input type="checkbox" name="compare-state" value="Saarland" onchange="compareHolidays()"> Saarland</label>
+    <label><input type="checkbox" name="compare-state" value="Sachsen" onchange="compareHolidays()"> Sachsen</label>
+    <label><input type="checkbox" name="compare-state" value="Sachsen-Anhalt" onchange="compareHolidays()"> Sachsen-Anhalt</label>
+    <label><input type="checkbox" name="compare-state" value="Schleswig-Holstein" onchange="compareHolidays()"> Schleswig-Holstein</label>
+    <label><input type="checkbox" name="compare-state" value="Thüringen" onchange="compareHolidays()"> Thüringen</label>
   </div>
 </div>
 
@@ -104,12 +126,24 @@ title: Feiertags Diff
     const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/2024/DE');
     const data = await response.json();
     
-    // Create a mapping of state codes to full names
+    // Complete mapping of state codes to full names
     const stateMapping = {
+      'DE-BW': 'Baden-Württemberg',
       'DE-BY': 'Bayern',
       'DE-BE': 'Berlin',
+      'DE-BB': 'Brandenburg',
+      'DE-HB': 'Bremen',
+      'DE-HH': 'Hamburg',
+      'DE-HE': 'Hessen',
+      'DE-MV': 'Mecklenburg-Vorpommern',
+      'DE-NI': 'Niedersachsen',
+      'DE-NW': 'Nordrhein-Westfalen',
+      'DE-RP': 'Rheinland-Pfalz',
+      'DE-SL': 'Saarland',
       'DE-SN': 'Sachsen',
-      'DE-NW': 'Nordrhein-Westfalen'
+      'DE-ST': 'Sachsen-Anhalt',
+      'DE-SH': 'Schleswig-Holstein',
+      'DE-TH': 'Thüringen'
     };
 
     // Initialize holidays object
