@@ -8,6 +8,7 @@ title: Feiertags Diff
     <option value="Bayern">Bayern</option>
     <option value="Berlin">Berlin</option>
     <option value="Saxony">Saxony</option>
+    <option value="Nordrhein-Westfalen">Nordrhein-Westfalen</option>
     <!-- Add more states as needed -->
   </select>
 </div>
@@ -17,6 +18,7 @@ title: Feiertags Diff
     <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
     <label><input type="checkbox" name="compare-state" value="Saxony" onchange="compareHolidays()"> Saxony</label>
+    <label><input type="checkbox" name="compare-state" value="Nordrhein-Westfalen" onchange="compareHolidays()"> Nordrhein-Westfalen</label>
     <!-- Add more states as needed -->
   </div>
 </div>
@@ -79,49 +81,13 @@ title: Feiertags Diff
     }
 </style>
 <script>
-  const holidays = {
-    Bayern: [
-      { date: '2024-01-01', name: 'Neujahrstag' },
-      { date: '2024-01-06', name: 'Heilige Drei Könige' },
-      { date: '2024-03-29', name: 'Karfreitag' },
-      { date: '2024-04-01', name: 'Ostermontag' },
-      { date: '2024-05-01', name: 'Tag der Arbeit' },
-      { date: '2024-05-09', name: 'Christi Himmelfahrt' },
-      { date: '2024-05-20', name: 'Pfingstmontag' },
-      { date: '2024-05-30', name: 'Fronleichnam' },
-      { date: '2024-08-15', name: 'Mariä Himmelfahrt' },
-      { date: '2024-10-03', name: 'Tag der Deutschen Einheit' },
-      { date: '2024-10-31', name: 'Reformationstag' },
-      { date: '2024-11-01', name: 'Allerheiligen' },
-      { date: '2024-12-25', name: 'Erster Weihnachtstag' },
-      { date: '2024-12-26', name: 'Zweiter Weihnachtstag' }
-    ],
-    Berlin: [
-      { date: '2024-01-01', name: 'Neujahrstag' },
-      { date: '2024-03-29', name: 'Karfreitag' },
-      { date: '2024-04-01', name: 'Ostermontag' },
-      { date: '2024-05-01', name: 'Tag der Arbeit' },
-      { date: '2024-05-09', name: 'Christi Himmelfahrt' },
-      { date: '2024-05-20', name: 'Pfingstmontag' },
-      { date: '2024-10-03', name: 'Tag der Deutschen Einheit' },
-      { date: '2024-12-25', name: 'Erster Weihnachtstag' },
-      { date: '2024-12-26', name: 'Zweiter Weihnachtstag' }
-    ],
-    Saxony: [
-      { date: '2024-01-01', name: 'Neujahrstag' },
-      { date: '2024-03-29', name: 'Karfreitag' },
-      { date: '2024-04-01', name: 'Ostermontag' },
-      { date: '2024-05-01', name: 'Tag der Arbeit' },
-      { date: '2024-05-09', name: 'Christi Himmelfahrt' },
-      { date: '2024-05-20', name: 'Pfingstmontag' },
-      { date: '2024-10-03', name: 'Tag der Deutschen Einheit' },
-      { date: '2024-10-31', name: 'Reformationstag' },
-      { date: '2024-11-20', name: 'Buß- und Bettag' },
-      { date: '2024-12-25', name: 'Erster Weihnachtstag' },
-      { date: '2024-12-26', name: 'Zweiter Weihnachtstag' }
-    ]
-    // Add more states and their holidays as needed
-  };
+  let holidays = {};
+
+  async function fetchHolidays() {
+    const response = await fetch('public-holidays.json');
+    holidays = await response.json();
+    compareHolidays();
+  }
 
   function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
@@ -204,7 +170,7 @@ title: Feiertags Diff
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     const { currentState, incomingStates } = getQueryParams();
     if (currentState) {
       document.getElementById('base-state').value = currentState;
@@ -215,6 +181,6 @@ title: Feiertags Diff
         checkbox.checked = true;
       }
     });
-    compareHolidays();
+    await fetchHolidays();
   });
 </script>
