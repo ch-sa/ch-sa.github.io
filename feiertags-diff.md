@@ -112,7 +112,10 @@ title: Feiertags Diff
     }
     .next-holiday {
         margin: 20px 0;
-        font-style: italic;
+        background-color: #f0f7fb;
+        border-left: 5px solid #3498db;
+        padding: 15px;
+        border-radius: 3px;
     }
     .warning-icon {
         color: #d9534f;
@@ -214,14 +217,22 @@ title: Feiertags Diff
     const nextHoliday = getNextHoliday();
     if (!nextHoliday) return;
 
-    const statesWithHoliday = Object.keys(holidays).filter(state => holidays[state].some(holiday => holiday.date === nextHoliday.date));
-    const statesWithoutHoliday = Object.keys(holidays).filter(state => !holidays[state].some(holiday => holiday.date === nextHoliday.date));
+    const baseState = document.getElementById('base-state').value;
+    const compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
+    const selectedStates = [baseState, ...compareStates];
+
+    const statesWithHoliday = selectedStates.filter(state => 
+      holidays[state].some(holiday => holiday.date === nextHoliday.date)
+    );
+    const statesWithoutHoliday = selectedStates.filter(state => 
+      !holidays[state].some(holiday => holiday.date === nextHoliday.date)
+    );
 
     const nextHolidayDiv = document.getElementById('next-holiday');
     nextHolidayDiv.innerHTML = `
       Nächster Feiertag ist <strong>${nextHoliday.name} am ${nextHoliday.date}</strong>
-      in ${statesWithHoliday.map(state => `${state} 😎`).join(', ')} und nicht in
-      ${statesWithoutHoliday.map(state => `${state} 👨‍💻`).join(', ')}.
+      ${statesWithHoliday.length ? `in ${statesWithHoliday.map(state => `${state} 😎`).join(', ')}` : ''}
+      ${statesWithoutHoliday.length ? `und nicht in ${statesWithoutHoliday.map(state => `${state} 👨‍💻`).join(', ')}` : ''}.
     `;
   }
 
