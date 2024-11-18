@@ -165,7 +165,9 @@ title: Feiertags Diff
       holidays[state].forEach(holiday => allDates.add(holiday.date));
     });
 
-    allDates.forEach(date => {
+    const sortedDates = Array.from(allDates).sort((a, b) => new Date(a) - new Date(b));
+
+    sortedDates.forEach(date => {
       const tr = document.createElement('tr');
       const baseHoliday = baseHolidays.find(h => h.date === date);
       const baseTd = document.createElement('td');
