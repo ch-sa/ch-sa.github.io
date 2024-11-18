@@ -66,6 +66,8 @@ title: Feiertags Diff
   </table>
 </div>
 
+<p class="disclaimer">Created with the help of some ✨ and not yet reviewed, treat with care!</p>
+
 <style>
     .main-content {
         max-width: 80%;
@@ -166,6 +168,13 @@ title: Feiertags Diff
     .form-label {
         min-width: 6em;
         font-weight: bold;
+    }
+    .disclaimer {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+        margin-top: 2em;
+        font-size: 0.8em;
     }
 </style>
 <script>
