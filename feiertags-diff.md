@@ -37,19 +37,17 @@ title: Feiertags Diff
 
 <style>
     .main-content {
-        max-width: 80%; /* Adjust this value as needed */
+        max-width: 80%;
         margin: 0 auto;
     }
     .diff-container {
-        width: 100%;
-        border: 1px solid #d1d5da;
-        border-radius: 6px;
         overflow: hidden;
     }
     table {
-        width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
+
     th, td {
         padding: 8px;
         border: 1px solid #e1e4e8;
