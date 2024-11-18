@@ -25,7 +25,7 @@ title: Feiertags Diff
   <table id="holidays-table">
     <thead>
       <tr>
-        <th>Base State Holidays</th>
+        <th id="base-state-header">Base State Holidays</th>
         <!-- Compare state headers will be dynamically added here -->
       </tr>
     </thead>
@@ -131,16 +131,21 @@ title: Feiertags Diff
 
   function compareHolidays() {
     const baseState = document.getElementById('base-state').value;
-    const compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
+    let compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
 
     updateURL(baseState, compareStates);
 
     const baseHolidays = holidays[baseState] || [];
     const holidaysTableBody = document.getElementById('holidays-table-body');
     const holidaysTableHead = document.querySelector('#holidays-table thead tr');
+    const baseStateHeader = document.getElementById('base-state-header');
 
     holidaysTableBody.innerHTML = '';
-    holidaysTableHead.innerHTML = '<th>Base State Holidays</th>';
+    baseStateHeader.textContent = `Base: ${baseState}`;
+    holidaysTableHead.innerHTML = `<th id="base-state-header">Base: ${baseState}</th>`;
+
+    // Remove the base state from the compare states if it is selected
+    compareStates = compareStates.filter(state => state !== baseState);
 
     compareStates.forEach(state => {
       const th = document.createElement('th');
@@ -181,6 +186,11 @@ title: Feiertags Diff
       });
 
       holidaysTableBody.appendChild(tr);
+    });
+
+    // Remove the checkbox for the selected base state
+    document.querySelectorAll('input[name="compare-state"]').forEach(checkbox => {
+      checkbox.parentElement.style.display = checkbox.value === baseState ? 'none' : 'block';
     });
   }
 
