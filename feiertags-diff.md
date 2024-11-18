@@ -3,7 +3,7 @@ title: Feiertags Diff
 ---
 
 <div>
-  <label for="base-state">Base State:</label>
+  <label for="base-state">Current:</label>
   <select id="base-state" name="base-state" onchange="compareHolidays()">
     <option value="Bayern">Bayern</option>
     <option value="Berlin">Berlin</option>
@@ -12,8 +12,8 @@ title: Feiertags Diff
     <!-- Add more states as needed -->
   </select>
 </div>
-<div>
-  <label for="compare-states">Incoming States:</label>
+<div class="horizontal-checkboxes">
+  <label for="compare-states">Incoming:</label>
   <div id="compare-states" class="horizontal-checkboxes">
     <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
