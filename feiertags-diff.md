@@ -2,7 +2,6 @@
 title: Feiertags Diff
 ---
 
-<h2>Feiertags Diff</h2>
 <div>
   <label for="base-state">Base State:</label>
   <select id="base-state" name="base-state" onchange="compareHolidays()">
@@ -23,56 +22,50 @@ title: Feiertags Diff
 </div>
 <!-- Removed the button -->
 <div id="result" class="diff-container">
-  <div id="base-state-holidays" class="diff-column">
-    <h3>Base State Holidays</h3>
-    <ul id="base-holidays-list"></ul>
-  </div>
-  <div id="compare-state-holidays" class="diff-columns">
-    <!-- Compare state columns will be dynamically added here -->
-  </div>
+  <table id="holidays-table">
+    <thead>
+      <tr>
+        <th>Base State Holidays</th>
+        <!-- Compare state headers will be dynamically added here -->
+      </tr>
+    </thead>
+    <tbody id="holidays-table-body">
+      <!-- Holiday rows will be dynamically added here -->
+    </tbody>
+  </table>
 </div>
 
 <style>
-      .main-content {
+    .main-content {
         max-width: 80%; /* Adjust this value as needed */
         margin: 0 auto;
-      }
-      
+    }
     .diff-container {
-        display: flex;
-        flex-wrap: nowrap;
+        width: 100%;
         border: 1px solid #d1d5da;
         border-radius: 6px;
         overflow: hidden;
     }
-    .diff-column {
-        flex: 1;
-        padding: 16px;
-        box-sizing: border-box;
+    table {
+        width: 100%;
+        border-collapse: collapse;
     }
-    .diff-columns {
-        display: flex;
-        flex-wrap: nowrap;
-    }
-    .diff-column h3 {
-        margin-top: 0;
-    }
-    .diff-column ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    .diff-column li {
+    th, td {
         padding: 8px;
-        border-bottom: 1px solid #e1e4e8;
+        border: 1px solid #e1e4e8;
+        text-align: left;
     }
-    .diff-column li:nth-child(odd) {
+    th {
         background-color: #f6f8fa;
     }
-    .diff-column li.added {
+    tr:nth-child(odd) {
+        background-color: #f6f8fa;
+    }
+    .added {
         background-color: #e6ffed;
         color: #22863a;
     }
-    .diff-column li.removed {
+    .removed {
         background-color: #ffeef0;
         color: #cb2431;
     }
@@ -145,41 +138,51 @@ title: Feiertags Diff
     updateURL(baseState, compareStates);
 
     const baseHolidays = holidays[baseState] || [];
-    const baseHolidaysList = document.getElementById('base-holidays-list');
-    const compareHolidaysContainer = document.getElementById('compare-state-holidays');
+    const holidaysTableBody = document.getElementById('holidays-table-body');
+    const holidaysTableHead = document.querySelector('#holidays-table thead tr');
 
-    baseHolidaysList.innerHTML = '';
-    compareHolidaysContainer.innerHTML = '';
-
-    const baseHolidayDates = baseHolidays.map(holiday => holiday.date);
-
-    baseHolidays.forEach(holiday => {
-      const li = document.createElement('li');
-      li.textContent = `${holiday.date} - ${holiday.name}`;
-      if (!compareStates.flatMap(state => holidays[state] || []).map(holiday => holiday.date).includes(holiday.date)) {
-        li.classList.add('removed');
-      }
-      baseHolidaysList.appendChild(li);
-    });
+    holidaysTableBody.innerHTML = '';
+    holidaysTableHead.innerHTML = '<th>Base State Holidays</th>';
 
     compareStates.forEach(state => {
-      const stateHolidays = holidays[state] || [];
-      const column = document.createElement('div');
-      column.classList.add('diff-column');
-      const header = document.createElement('h3');
-      header.textContent = `${state} Holidays`;
-      column.appendChild(header);
-      const ul = document.createElement('ul');
-      stateHolidays.forEach(holiday => {
-        const li = document.createElement('li');
-        li.textContent = `${holiday.date} - ${holiday.name}`;
-        if (!baseHolidayDates.includes(holiday.date)) {
-          li.classList.add('added');
+      const th = document.createElement('th');
+      th.textContent = `${state} Holidays`;
+      holidaysTableHead.appendChild(th);
+    });
+
+    const allDates = new Set(baseHolidays.map(holiday => holiday.date));
+    compareStates.forEach(state => {
+      holidays[state].forEach(holiday => allDates.add(holiday.date));
+    });
+
+    allDates.forEach(date => {
+      const tr = document.createElement('tr');
+      const baseHoliday = baseHolidays.find(h => h.date === date);
+      const baseTd = document.createElement('td');
+      if (baseHoliday) {
+        baseTd.textContent = `${baseHoliday.date} - ${baseHoliday.name}`;
+      } else {
+        baseTd.textContent = 'Not a holiday';
+        baseTd.classList.add('removed');
+      }
+      tr.appendChild(baseTd);
+
+      compareStates.forEach(state => {
+        const td = document.createElement('td');
+        const stateHoliday = holidays[state].find(h => h.date === date);
+        if (stateHoliday) {
+          td.textContent = `${stateHoliday.date} - ${stateHoliday.name}`;
+          if (!baseHoliday) {
+            td.classList.add('added');
+          }
+        } else {
+          td.textContent = 'Not a holiday';
+          td.classList.add('removed');
         }
-        ul.appendChild(li);
+        tr.appendChild(td);
       });
-      column.appendChild(ul);
-      compareHolidaysContainer.appendChild(column);
+
+      holidaysTableBody.appendChild(tr);
     });
   }
 
