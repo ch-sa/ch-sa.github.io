@@ -7,7 +7,7 @@ title: Feiertags Diff
   <select id="base-state" name="base-state" onchange="compareHolidays()">
     <option value="Bayern">Bayern</option>
     <option value="Berlin">Berlin</option>
-    <option value="Saxony">Saxony</option>
+    <option value="Sachsen">Sachsen</option>
     <option value="Nordrhein-Westfalen">Nordrhein-Westfalen</option>
     <!-- Add more states as needed -->
   </select>
@@ -17,12 +17,16 @@ title: Feiertags Diff
   <div id="compare-states" class="horizontal-checkboxes">
     <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
-    <label><input type="checkbox" name="compare-state" value="Saxony" onchange="compareHolidays()"> Saxony</label>
+    <label><input type="checkbox" name="compare-state" value="Sachsen" onchange="compareHolidays()"> Sachsen</label>
     <label><input type="checkbox" name="compare-state" value="Nordrhein-Westfalen" onchange="compareHolidays()"> Nordrhein-Westfalen</label>
     <!-- Add more states as needed -->
   </div>
 </div>
-<!-- Removed the button -->
+
+<div id="next-holiday" class="next-holiday">
+  <!-- Next holiday information will be dynamically added here -->
+</div>
+
 <div id="result" class="diff-container">
   <table id="holidays-table">
     <thead>
@@ -79,6 +83,10 @@ title: Feiertags Diff
         align-items: center;
         gap: 5px;
     }
+    .next-holiday {
+        margin: 20px 0;
+        font-style: italic;
+    }
 </style>
 <script>
   let holidays = {};
@@ -103,6 +111,29 @@ title: Feiertags Diff
     params.set('incomingStates', compareStates.join(','));
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
+  }
+
+  function getNextHoliday() {
+    const today = new Date().toISOString().split('T')[0];
+    const allHolidays = Object.values(holidays).flat();
+    const futureHolidays = allHolidays.filter(holiday => holiday.date >= today);
+    futureHolidays.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return futureHolidays[0];
+  }
+
+  function updateNextHolidaySection() {
+    const nextHoliday = getNextHoliday();
+    if (!nextHoliday) return;
+
+    const statesWithHoliday = Object.keys(holidays).filter(state => holidays[state].some(holiday => holiday.date === nextHoliday.date));
+    const statesWithoutHoliday = Object.keys(holidays).filter(state => !holidays[state].some(holiday => holiday.date === nextHoliday.date));
+
+    const nextHolidayDiv = document.getElementById('next-holiday');
+    nextHolidayDiv.innerHTML = `
+      Nächster Feiertag ist <strong>${nextHoliday.name} am ${nextHoliday.date}</strong>
+      in ${statesWithHoliday.map(state => `${state} 😎`).join(', ')} und nicht in
+      ${statesWithoutHoliday.map(state => `${state} 😢`).join(', ')}.
+    `;
   }
 
   function compareHolidays() {
@@ -168,6 +199,8 @@ title: Feiertags Diff
     document.querySelectorAll('input[name="compare-state"]').forEach(checkbox => {
       checkbox.parentElement.style.display = checkbox.value === baseState ? 'none' : 'flex';
     });
+
+    updateNextHolidaySection();
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
