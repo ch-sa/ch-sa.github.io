@@ -31,7 +31,7 @@ title: Feiertags Diff
   <table id="holidays-table">
     <thead>
       <tr>
-        <th>Date</th>
+        <th>Datum</th>
         <th id="base-state-header">Base State Holidays</th>
         <!-- Compare state headers will be dynamically added here -->
       </tr>
