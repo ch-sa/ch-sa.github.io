@@ -174,7 +174,7 @@ title: Feiertags Diff
       if (baseHoliday) {
         baseTd.textContent = `${baseHoliday.date} - ${baseHoliday.name}`;
       } else {
-        baseTd.textContent = 'Not a holiday';
+        baseTd.textContent = 'Kein Feiertag';
         baseTd.classList.add('removed');
       }
       tr.appendChild(baseTd);
@@ -188,7 +188,7 @@ title: Feiertags Diff
             td.classList.add('added');
           }
         } else {
-          td.textContent = 'Not a holiday';
+          td.textContent = 'Kein Feiertag';
           td.classList.add('removed');
         }
         tr.appendChild(td);
