@@ -42,20 +42,19 @@ title: Feiertags Diff
       
     .diff-container {
         display: flex;
-        justify-content: space-between;
+        flex-wrap: nowrap;
         border: 1px solid #d1d5da;
         border-radius: 6px;
         overflow: hidden;
     }
     .diff-column {
-        width: 50%;
+        flex: 1;
         padding: 16px;
         box-sizing: border-box;
     }
     .diff-columns {
         display: flex;
-        flex-wrap: wrap;
-        width: 50%;
+        flex-wrap: nowrap;
     }
     .diff-column h3 {
         margin-top: 0;
@@ -125,10 +124,27 @@ title: Feiertags Diff
     // Add more states and their holidays as needed
   };
 
+  function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      currentState: params.get('currentState'),
+      incomingStates: params.get('incomingStates') ? params.get('incomingStates').split(',') : []
+    };
+  }
+
+  function updateURL(baseState, compareStates) {
+    const params = new URLSearchParams();
+    params.set('currentState', baseState);
+    params.set('incomingStates', compareStates.join(','));
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+  }
+
   function compareHolidays() {
     const baseState = document.getElementById('base-state').value;
-    const compareStateElements = document.querySelectorAll('input[name="compare-state"]:checked');
-    const compareStates = Array.from(compareStateElements).map(el => el.value);
+    const compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
+
+    updateURL(baseState, compareStates);
 
     const baseHolidays = holidays[baseState] || [];
     const baseHolidaysList = document.getElementById('base-holidays-list');
@@ -168,4 +184,18 @@ title: Feiertags Diff
       compareHolidaysContainer.appendChild(column);
     });
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const { currentState, incomingStates } = getQueryParams();
+    if (currentState) {
+      document.getElementById('base-state').value = currentState;
+    }
+    incomingStates.forEach(state => {
+      const checkbox = document.querySelector(`input[name="compare-state"][value="${state}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    });
+    compareHolidays();
+  });
 </script>
