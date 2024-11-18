@@ -5,7 +5,7 @@ title: Feiertags Diff
 <div>
   <label for="base-state">Base State:</label>
   <select id="base-state" name="base-state" onchange="compareHolidays()">
-    <option value="Bavaria">Bavaria</option>
+    <option value="Bayern">Bayern</option>
     <option value="Berlin">Berlin</option>
     <option value="Saxony">Saxony</option>
     <!-- Add more states as needed -->
@@ -13,8 +13,8 @@ title: Feiertags Diff
 </div>
 <div>
   <label for="compare-states">Incoming States:</label>
-  <div id="compare-states">
-    <label><input type="checkbox" name="compare-state" value="Bavaria" onchange="compareHolidays()"> Bavaria</label>
+  <div id="compare-states" class="horizontal-checkboxes">
+    <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
     <label><input type="checkbox" name="compare-state" value="Saxony" onchange="compareHolidays()"> Saxony</label>
     <!-- Add more states as needed -->
@@ -67,10 +67,20 @@ title: Feiertags Diff
         background-color: #ffeef0;
         color: #cb2431;
     }
+    .horizontal-checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .horizontal-checkboxes label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
 </style>
 <script>
   const holidays = {
-    Bavaria: [
+    Bayern: [
       { date: '2024-01-01', name: 'Neujahrstag' },
       { date: '2024-01-06', name: 'Heilige Drei Könige' },
       { date: '2024-03-29', name: 'Karfreitag' },
@@ -190,7 +200,7 @@ title: Feiertags Diff
 
     // Remove the checkbox for the selected base state
     document.querySelectorAll('input[name="compare-state"]').forEach(checkbox => {
-      checkbox.parentElement.style.display = checkbox.value === baseState ? 'none' : 'block';
+      checkbox.parentElement.style.display = checkbox.value === baseState ? 'none' : 'flex';
     });
   }
 
