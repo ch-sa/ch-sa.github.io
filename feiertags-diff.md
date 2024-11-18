@@ -12,7 +12,7 @@ title: Feiertags Diff
   </select>
 </div>
 <div>
-  <label for="compare-states">Compare States:</label>
+  <label for="compare-states">Incoming States:</label>
   <div id="compare-states">
     <label><input type="checkbox" name="compare-state" value="Bavaria" onchange="compareHolidays()"> Bavaria</label>
     <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
@@ -141,15 +141,15 @@ title: Feiertags Diff
     const baseStateHeader = document.getElementById('base-state-header');
 
     holidaysTableBody.innerHTML = '';
-    baseStateHeader.textContent = `Base: ${baseState}`;
-    holidaysTableHead.innerHTML = `<th id="base-state-header">Base: ${baseState}</th>`;
+    baseStateHeader.textContent = `Current: ${baseState}`;
+    holidaysTableHead.innerHTML = `<th id="base-state-header">Current: ${baseState}</th>`;
 
     // Remove the base state from the compare states if it is selected
     compareStates = compareStates.filter(state => state !== baseState);
 
     compareStates.forEach(state => {
       const th = document.createElement('th');
-      th.textContent = `${state} Holidays`;
+      th.textContent = `Incoming: ${state}`;
       holidaysTableHead.appendChild(th);
     });
 
