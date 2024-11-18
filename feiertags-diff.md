@@ -62,6 +62,7 @@ title: Feiertags Diff
     }
     th {
         background-color: #f6f8fa;
+        height: 3.5em;
     }
     tr:nth-child(odd) {
         background-color: #fafafa;
