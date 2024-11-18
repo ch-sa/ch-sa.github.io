@@ -48,11 +48,14 @@ title: Feiertags Diff
         margin: 0 auto;
     }
     .diff-container {
-        overflow: hidden;
+        overflow-x: auto;
     }
     table {
+        width: 100%;
         border-collapse: collapse;
         table-layout: fixed;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     th, td {
@@ -106,15 +109,15 @@ title: Feiertags Diff
   function getQueryParams() {
     const params = new URLSearchParams(window.location.search);
     return {
-      currentState: params.get('currentState'),
-      incomingStates: params.get('incomingStates') ? params.get('incomingStates').split(',') : []
+      currentState: params.get('current'),
+      incomingStates: params.getAll('incoming')
     };
   }
 
   function updateURL(baseState, compareStates) {
     const params = new URLSearchParams();
-    params.set('currentState', baseState);
-    params.set('incomingStates', compareStates.join(','));
+    params.set('current', baseState);
+    compareStates.forEach(state => params.append('incoming', state));
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
   }
@@ -138,7 +141,7 @@ title: Feiertags Diff
     nextHolidayDiv.innerHTML = `
       Nächster Feiertag ist <strong>${nextHoliday.name} am ${nextHoliday.date}</strong>
       in ${statesWithHoliday.map(state => `${state} 😎`).join(', ')} und nicht in
-      ${statesWithoutHoliday.map(state => `${state} 😢`).join(', ')}.
+      ${statesWithoutHoliday.map(state => `${state} 👨‍💻`).join(', ')}.
     `;
   }
 
