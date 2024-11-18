@@ -71,12 +71,13 @@ title: Feiertags Diff
     }
     .diff-container {
         overflow-x: auto;
+        position: relative;
     }
     table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
         table-layout: fixed;
-        border-radius: 8px;
         overflow: hidden;
     }
 
@@ -84,13 +85,37 @@ title: Feiertags Diff
         padding: 8px;
         border: 1px solid #e1e4e8;
         text-align: left;
+        min-width: 200px;
     }
-    th {
-        background-color: #f6f8fa;
-        height: 3.5em;
+
+    /* Sticky first two columns */
+    th:first-child,
+    td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background: white;
+        border-right: 2px solid #e1e4e8;
     }
-    tr:nth-child(odd) {
-        background-color: #fafafa;
+
+    th:nth-child(2),
+    td:nth-child(2) {
+        position: sticky;
+        left: 200px; /* same as min-width */
+        z-index: 1;
+        background: white;
+        border-right: 2px solid #e1e4e8;
+    }
+
+    th:first-child,
+    th:nth-child(2) {
+        z-index: 3;
+        background: #f6f8fa;
+    }
+
+    tr:nth-child(odd) td:first-child,
+    tr:nth-child(odd) td:nth-child(2) {
+        background: #fafafa;
     }
     .added {
         background-color: #e6ffed;
