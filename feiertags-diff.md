@@ -66,6 +66,8 @@ title: Feiertags Diff
   </table>
 </div>
 
+<button id="download-ics" class="download-button">Export Diff Feiertage in Kalender (.ics)</button>
+
 <p class="disclaimer">Created with the help of some ✨ and not yet reviewed, treat with care!</p>
 
 <style>
@@ -73,6 +75,266 @@ title: Feiertags Diff
         max-width: 80%;
         margin: 0 auto;
     }
+
+    @media (max-width: 768px) {
+        .main-content {
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 5px;
+        }
+
+        #base-state {
+            width: 100%;
+            max-width: none;
+        }
+
+        .horizontal-checkboxes {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .horizontal-checkboxes label {
+            margin-left: 0;
+            font-size: 14px;
+        }
+
+        .next-holiday {
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        /* Disable sticky columns on mobile */
+        th:first-child,
+        td:first-child,
+        th:nth-child(2),
+        td:nth-child(2) {
+            position: static;
+            min-width: 120px;
+        }
+
+        /* Adjust table for better mobile view */
+        th, td {
+            padding: 6px;
+            min-width: 120px;
+            font-size: 14px;
+        }
+
+        .download-button {
+            width: 100%;
+            margin: 15px 0;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* Make the table container full-width on mobile */
+        .diff-container {
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        .main-content {
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 5px;
+        }
+
+        #base-state {
+            width: 100%;
+            max-width: none;
+        }
+
+        .horizontal-checkboxes {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .horizontal-checkboxes label {
+            margin-left: 0;
+            font-size: 14px;
+        }
+
+        .next-holiday {
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        /* Disable sticky columns on mobile */
+        th:first-child,
+        td:first-child,
+        th:nth-child(2),
+        td:nth-child(2) {
+            position: static;
+            min-width: 120px;
+        }
+
+        /* Adjust table for better mobile view */
+        th, td {
+            padding: 6px;
+            min-width: 120px;
+            font-size: 14px;
+        }
+
+        .download-button {
+            width: 100%;
+            margin: 15px 0;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* Make the table container full-width on mobile */
+        .diff-container {
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        .main-content {
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 5px;
+        }
+
+        #base-state {
+            width: 100%;
+            max-width: none;
+        }
+
+        .horizontal-checkboxes {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .horizontal-checkboxes label {
+            margin-left: 0;
+            font-size: 14px;
+        }
+
+        .next-holiday {
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        /* Disable sticky columns on mobile */
+        th:first-child,
+        td:first-child,
+        th:nth-child(2),
+        td:nth-child(2) {
+            position: static;
+            min-width: 120px;
+        }
+
+        /* Adjust table for better mobile view */
+        th, td {
+            padding: 6px;
+            min-width: 120px;
+            font-size: 14px;
+        }
+
+        .download-button {
+            width: 100%;
+            margin: 15px 0;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* Make the table container full-width on mobile */
+        .diff-container {
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        .main-content {
+            max-width: 95%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 5px;
+        }
+
+        #base-state {
+            width: 100%;
+            max-width: none;
+        }
+
+        .horizontal-checkboxes {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .horizontal-checkboxes label {
+            margin-left: 0;
+            font-size: 14px;
+        }
+
+        .next-holiday {
+            font-size: 14px;
+            padding: 10px;
+        }
+
+        /* Disable sticky columns on mobile */
+        th:first-child,
+        td:first-child,
+        th:nth-child(2),
+        td:nth-child(2) {
+            position: static;
+            min-width: 120px;
+        }
+
+        /* Adjust table for better mobile view */
+        th, td {
+            padding: 6px;
+            min-width: 120px;
+            font-size: 14px;
+        }
+
+        .download-button {
+            width: 100%;
+            margin: 15px 0;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        /* Make the table container full-width on mobile */
+        .diff-container {
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+        }
+    }
+
     .diff-container {
         overflow-x: auto;
         position: relative;
@@ -175,6 +437,18 @@ title: Feiertags Diff
         color: #666;
         margin-top: 2em;
         font-size: 0.8em;
+    }
+    .download-button {
+        margin: 20px 0;
+        padding: 10px 20px;
+        background-color: #0366d6;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    .download-button:hover {
+        background-color: #045cb5;
     }
 </style>
 <script>
@@ -373,13 +647,76 @@ title: Feiertags Diff
       holidaysTableBody.appendChild(tr);
     });
 
-    // Remove the checkbox for the selected base state
+    // Remove the checkbox for the select base state
     document.querySelectorAll('input[name="compare-state"]').forEach(checkbox => {
       checkbox.parentElement.style.display = checkbox.value === baseState ? 'none' : 'flex';
     });
 
     updateNextHolidaySection();
   }
+
+  function generateICS(conflicts) {
+    const now = new Date().toISOString().replace(/[-:.]/g, '').split('T')[0];
+    
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Feiertags-Diff//DE',
+        ...conflicts.map(conflict => {
+            const date = conflict.date.replace(/-/g, '');
+            const uid = `${date}-${Math.random().toString(36).substr(2, 9)}`;
+            const states = conflict.states.join(', ');
+            
+            return [
+                'BEGIN:VEVENT',
+                `UID:${uid}`,
+                `DTSTAMP:${now}T000000Z`,
+                `DTSTART;VALUE=DATE:${date}`,
+                `DTEND;VALUE=DATE:${date}`,
+                `STATUS:TENTATIVE`,
+                `SUMMARY:${conflict.holiday} (Konflikt)`,
+                `DESCRIPTION:Unterschiedliche Feiertage in: ${states}`,
+                'END:VEVENT'
+            ].join('\r\n');
+        }),
+        'END:VCALENDAR'
+    ].join('\r\n');
+
+    return icsContent;
+}
+
+function downloadICS() {
+    const baseState = document.getElementById('base-state').value;
+    const compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
+    const conflicts = [];
+
+    // Get all dates with differences
+    document.querySelectorAll('#holidays-table-body tr').forEach(row => {
+        if (row.querySelector('.warning-icon')) {
+            const date = row.cells[0].textContent.trim().replace(' ⚠️', '');
+            const states = [baseState, ...compareStates];
+            const stateHolidays = states.map(state => {
+                const idx = states.indexOf(state) + 1;
+                return row.cells[idx].textContent;
+            });
+            
+            conflicts.push({
+                date: date,
+                holiday: stateHolidays.find(h => h !== 'Kein Feiertag') || 'Feiertags-Konflikt',
+                states: states
+            });
+        }
+    });
+
+    const icsContent = generateICS(conflicts);
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'feiertags-diff.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
   document.addEventListener('DOMContentLoaded', async () => {
     const { currentState, incomingStates } = getQueryParams();
@@ -393,5 +730,6 @@ title: Feiertags Diff
       }
     });
     await fetchHolidays();
+    document.getElementById('download-ics').addEventListener('click', downloadICS);
   });
 </script>
