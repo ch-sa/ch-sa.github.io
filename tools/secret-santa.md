@@ -4,25 +4,23 @@ title: Secret Santa Generator
 
 # 🎅 Secret Santa Generator 🎄
 
-<div class="santa-container">
-  <div id="setup-form">
-    <div class="form-group">
-      <label for="participants">Names (one per line):</label>
-      <textarea id="participants" rows="8" placeholder="Max Mustermann&#10;Erika Musterfrau&#10;..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="handover-date">Gift handover date:</label>
-      <input type="date" id="handover-date">
-    </div>
-
-    <button id="generate" class="generate-button">Generate & Share Links</button>
+<div id="setup-form" class="santa-container">
+  <div class="form-group">
+    <label for="participants">Names (one per line):</label>
+    <textarea id="participants" rows="8" placeholder="Max Mustermann&#10;Erika Musterfrau&#10;..."></textarea>
   </div>
 
-  <div id="result" class="result-container" style="display:none;">
-    <h3>Secret Santa Assignment</h3>
-    <div id="assignments"></div>
+  <div class="form-group">
+    <label for="handover-date">Gift handover date:</label>
+    <input type="date" id="handover-date">
   </div>
+
+  <button id="generate" class="generate-button">Generate & Share Links</button>
+</div>
+
+<div id="result" class="result-container" style="display:none;">
+  <h3>Secret Santa Assignment</h3>
+  <div id="assignments"></div>
 </div>
 
 <div class="snowflakes" aria-hidden="true">
@@ -38,14 +36,21 @@ title: Secret Santa Generator
     text-align: center;
 }
 
-.santa-container {
+.santa-container, .result-container {
   max-width: 600px;
   margin: 20px auto;
   background: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.santa-container {
   border: 2px solid #c41e3a;
+}
+
+.result-container {
+  border: 2px solid #006400;
 }
 
 .form-group {
@@ -272,7 +277,7 @@ function showParticipantView(names, date, santa) {
       <p>I heard you're doing Secret Santa with ${otherParticipants} on ${dateStr}!</p>
       <p>I've carefully selected someone special for you ...</p>
     </div>
-    <div class="drumroll">🦌 🦌 🦌 🛷</div>
+    <div class="drumroll">🦌 🦌 🦌</div>
     <div class="recipient-reveal">${assignment.recipient}</div>
     <div class="santa-talk" style="margin-top: 20px;">
       <p>Make them happy with a thoughtful gift! 🎁</p>
