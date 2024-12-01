@@ -5,20 +5,22 @@ title: Secret Santa Generator
 # 🎅 Secret Santa Generator 🎄
 
 <div class="santa-container">
-  <div class="form-group">
-    <label for="participants">Names (one per line):</label>
-    <textarea id="participants" rows="8" placeholder="Max Mustermann&#10;Erika Musterfrau&#10;..."></textarea>
-  </div>
+  <div id="setup-form">
+    <div class="form-group">
+      <label for="participants">Names (one per line):</label>
+      <textarea id="participants" rows="8" placeholder="Max Mustermann&#10;Erika Musterfrau&#10;..."></textarea>
+    </div>
 
-  <div class="form-group">
-    <label for="handover-date">Gift handover date:</label>
-    <input type="date" id="handover-date">
-  </div>
+    <div class="form-group">
+      <label for="handover-date">Gift handover date:</label>
+      <input type="date" id="handover-date">
+    </div>
 
-  <button id="generate" class="generate-button">Generate & Share Link</button>
+    <button id="generate" class="generate-button">Generate & Share Links</button>
+  </div>
 
   <div id="result" class="result-container" style="display:none;">
-    <h3>Results:</h3>
+    <h3>Secret Santa Assignment</h3>
     <div id="assignments"></div>
   </div>
 </div>
@@ -156,6 +158,59 @@ title: Secret Santa Generator
 .snowflake:nth-of-type(3n) { animation-delay: 4s; left: 40%; }
 .snowflake:nth-of-type(4n) { animation-delay: 6s; left: 60%; }
 .snowflake:nth-of-type(5n) { animation-delay: 8s; left: 80%; }
+
+@keyframes drumroll {
+  0% { transform: translateX(-2px); }
+  25% { transform: translateX(2px); }
+  50% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(-2px); }
+}
+
+@keyframes poof {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.santa-talk {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #333;
+}
+
+.drumroll {
+  text-align: center;
+  font-size: 2em;
+  margin: 20px 0;
+  animation: drumroll 0.1s infinite;
+}
+
+.recipient-reveal {
+  text-align: center;
+  font-size: 2.5em;
+  color: #c41e3a;
+  opacity: 0;
+  animation: poof 1s forwards;
+  animation-delay: 3s;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Add new styles */
+#setup-form.hidden {
+  display: none;
+}
+
+.participant-link {
+  word-break: break-all;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 5px 0;
+}
 </style>
 
 <script>
@@ -212,49 +267,81 @@ function generateAssignments(names, date) {
   }));
 }
 
+function showParticipantView(names, date, santa) {
+  const assignments = generateAssignments(names, date);
+  const assignment = assignments.find(a => a.santa === santa);
+  if (!assignment) {
+    document.getElementById('assignments').innerHTML = '<p>Invalid Santa name!</p>';
+    return;
+  }
+
+  const dateObj = new Date(date);
+  const dateStr = dateObj.toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
+  const otherParticipants = names.filter(n => n !== santa).join(', ');
+  
+  document.getElementById('assignments').innerHTML = `
+    <div class="santa-talk">
+      <p>🎅 Ho ho ho ${assignment.santa}!</p>
+      <p>I heard you're doing Secret Santa with ${otherParticipants} on ${dateStr}!</p>
+      <p>I've carefully selected someone special for you to give a gift to...</p>
+    </div>
+    <div class="drumroll">🥁 🥁 🥁</div>
+    <div class="recipient-reveal">${assignment.recipient}</div>
+    <div class="santa-talk" style="margin-top: 20px;">
+      <p>Make them happy with a thoughtful gift! 🎁</p>
+      <p style="font-size: 0.8em;">- Santa Claus 🎅</p>
+    </div>
+  `;
+}
+
+function showOrganizerView(names, date) {
+  const baseUrl = window.location.href.split('?')[0];
+  const params = new URLSearchParams();
+  params.set('names', encodeURIComponent(names.join(',')));
+  params.set('date', date);
+  
+  const links = generateAssignments(names, date)
+    .map(({santa}) => {
+      const santaParams = new URLSearchParams(params);
+      santaParams.set('santa', santa);
+      return `<p><strong>${santa}'s link:</strong><br><span class="participant-link">${baseUrl}?${santaParams}</span></p>`;
+    })
+    .join('');
+
+  document.getElementById('assignments').innerHTML = 
+    '<p>Share these links with each participant:</p>' + links;
+}
+
 function updateFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const names = params.get('names');
   const date = params.get('date');
   const santa = params.get('santa');
 
-  if (names && date) {
-    const nameList = decodeURIComponent(names).split(',');
-    document.getElementById('participants').value = nameList.join('\n');
-    document.getElementById('handover-date').value = date;
-    showResults(nameList, date, santa);
-  }
-}
+  if (!names || !date) return;
 
-function showResults(names, date, santa) {
-  const assignments = generateAssignments(names, date);
-  const result = document.getElementById('result');
-  const assignmentsDiv = document.getElementById('assignments');
+  const nameList = decodeURIComponent(names).split(',');
   
   if (santa) {
-    // Show only the individual assignment
-    const assignment = assignments.find(a => a.santa === santa);
-    if (assignment) {
-      assignmentsDiv.innerHTML = `<p>Dear ${assignment.santa}, you will give a gift to: ${assignment.recipient}</p>`;
-    } else {
-      assignmentsDiv.innerHTML = '<p>Invalid Santa name!</p>';
-    }
+    document.getElementById('setup-form').classList.add('hidden');
   } else {
-    // Show individual links for each participant
-    const baseUrl = window.location.href.split('?')[0];
-    const params = new URLSearchParams();
-    params.set('names', encodeURIComponent(names.join(',')));
-    params.set('date', date);
-    
-    assignmentsDiv.innerHTML = '<p>Share these links with each participant:</p>' +
-      assignments.map(({santa}) => {
-        const santaParams = new URLSearchParams(params);
-        santaParams.set('santa', santa);
-        return `<p>${santa}'s link: <br><a href="${baseUrl}?${santaParams}">${baseUrl}?${santaParams}</a></p>`;
-      }).join('');
+    document.getElementById('participants').value = nameList.join('\n');
+    document.getElementById('handover-date').value = date;
   }
+
+  document.getElementById('result').style.display = 'block';
   
-  result.style.display = 'block';
+  if (santa) {
+    showParticipantView(nameList, date, santa);
+  } else {
+    showOrganizerView(nameList, date);
+  }
 }
 
 document.getElementById('generate').addEventListener('click', () => {
@@ -273,10 +360,9 @@ document.getElementById('generate').addEventListener('click', () => {
   params.set('names', encodeURIComponent(names.join(',')));
   params.set('date', date);
   
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  window.history.pushState({}, '', newUrl);
-  
-  showResults(names, date);
+  window.history.pushState({}, '', `${window.location.pathname}?${params}`);
+  showOrganizerView(names, date);
+  document.getElementById('result').style.display = 'block';
 });
 
 // Load assignments from URL on page load
