@@ -4,4 +4,4 @@ title: Tools
 
 ## Tools
 
-- [Feiertags Diff](/feiertags-diff?current=Bayern&incoming=Berlin&incoming=Sachsen)
+- [Feiertags Diff](/tools/feiertags-diff?current=Bayern&incoming=Berlin&incoming=Sachsen)
