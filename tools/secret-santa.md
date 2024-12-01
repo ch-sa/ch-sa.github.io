@@ -216,23 +216,43 @@ function updateFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const names = params.get('names');
   const date = params.get('date');
+  const santa = params.get('santa');
 
   if (names && date) {
     const nameList = decodeURIComponent(names).split(',');
     document.getElementById('participants').value = nameList.join('\n');
     document.getElementById('handover-date').value = date;
-    showResults(nameList, date);
+    showResults(nameList, date, santa);
   }
 }
 
-function showResults(names, date) {
+function showResults(names, date, santa) {
   const assignments = generateAssignments(names, date);
   const result = document.getElementById('result');
   const assignmentsDiv = document.getElementById('assignments');
   
-  assignmentsDiv.innerHTML = assignments.map(({santa, recipient}) =>
-    `<p>${santa} → ${recipient}</p>`
-  ).join('');
+  if (santa) {
+    // Show only the individual assignment
+    const assignment = assignments.find(a => a.santa === santa);
+    if (assignment) {
+      assignmentsDiv.innerHTML = `<p>Dear ${assignment.santa}, you will give a gift to: ${assignment.recipient}</p>`;
+    } else {
+      assignmentsDiv.innerHTML = '<p>Invalid Santa name!</p>';
+    }
+  } else {
+    // Show individual links for each participant
+    const baseUrl = window.location.href.split('?')[0];
+    const params = new URLSearchParams();
+    params.set('names', encodeURIComponent(names.join(',')));
+    params.set('date', date);
+    
+    assignmentsDiv.innerHTML = '<p>Share these links with each participant:</p>' +
+      assignments.map(({santa}) => {
+        const santaParams = new URLSearchParams(params);
+        santaParams.set('santa', santa);
+        return `<p>${santa}'s link: <br><a href="${baseUrl}?${santaParams}">${baseUrl}?${santaParams}</a></p>`;
+      }).join('');
+  }
   
   result.style.display = 'block';
 }
