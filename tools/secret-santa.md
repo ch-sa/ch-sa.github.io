@@ -31,6 +31,15 @@ title: Secret Santa Generator
   <div class="snowflake">❅</div>
 </div>
 
+<div class="info-box">
+  <h3>❄️ How it works</h3>
+  <ul>
+    <li><strong>No Account Needed:</strong> Just enter names and date - that's it!</li>
+    <li><strong>Deterministic Matching:</strong> The same participants and date will always generate the same assignments. This means the organizer cannot manipulate the results as the same calculation is done every time the link is opened.</li>
+    <li><strong>Private & Secure:</strong> All matching happens in your browser - no data is stored on any server.</li>
+  </ul>
+</div>
+
 <style>
 .main-content h1 {
     text-align: center;
@@ -87,6 +96,8 @@ title: Secret Santa Generator
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
 }
 
 .generate-button:hover {
@@ -196,6 +207,39 @@ title: Secret Santa Generator
   padding: 10px;
   border-radius: 4px;
   margin: 5px 0;
+}
+
+.info-box {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 1.5rem;
+  background: #f8f8f8;
+  border-radius: 8px;
+  border-left: 4px solid #aae3fa;
+  color: #666;
+  font-size: 0.8em;
+}
+
+.info-box h3 {
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: normal;
+}
+
+.info-box ul {
+  margin-bottom: 0;
+  padding-left: 1.2rem;
+  list-style-type: circle;
+}
+
+.info-box li {
+  margin-bottom: 0.7rem;
+  line-height: 1.4;
+}
+
+.info-box li:last-child {
+  margin-bottom: 0;
 }
 </style>
 
