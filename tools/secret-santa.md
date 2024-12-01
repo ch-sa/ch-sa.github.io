@@ -194,6 +194,9 @@ class Random {
 }
 
 function generateAssignments(names, date) {
+  // Sort names to ensure consistent results
+  names = names.sort();
+
   const seed = Random.hash(names.join(',') + date);
   const random = new Random(seed);
   
