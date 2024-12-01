@@ -279,17 +279,31 @@ class Random {
 }
 
 function generateAssignments(names, date) {
-  // Sort names to ensure consistent results
   names = names.sort();
-
   const seed = Random.hash(names.join(',') + date);
   const random = new Random(seed);
   
-  // Keep shuffling until no one gets themselves
+  // Add maximum attempts to prevent infinite loop
+  let attempts = 0;
+  const MAX_ATTEMPTS = 1000;
+  
   let shuffled;
   do {
     shuffled = random.shuffle([...names]);
-  } while (names.some((name, i) => name === shuffled[i]));
+    attempts++;
+    
+    // Break if we've tried too many times
+    if (attempts >= MAX_ATTEMPTS) {
+      console.error('Could not find valid assignment after', MAX_ATTEMPTS, 'attempts');
+      // Fall back to allowing reciprocal assignments but still preventing self-assignments
+      if (!names.some((name, i) => name === shuffled[i])) {
+        break;
+      }
+    }
+  } while (names.some((name, i) => {
+    const recipientIndex = names.indexOf(shuffled[i]);
+    return name === shuffled[i] || name === shuffled[recipientIndex];
+  }));
 
   return names.map((name, i) => ({
     santa: name,
