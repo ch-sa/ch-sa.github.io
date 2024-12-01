@@ -1,9 +1,8 @@
 ---
-layout: default
 title: Secret Santa Generator
 ---
 
-# Secret Santa Generator
+# 🎅 Secret Santa Generator 🎄
 
 <div class="santa-container">
   <div class="form-group">
@@ -24,10 +23,44 @@ title: Secret Santa Generator
   </div>
 </div>
 
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+  <div class="snowflake">❅</div>
+  <div class="snowflake">❆</div>
+  <div class="snowflake">❅</div>
+</div>
+
 <style>
+.main-content h1 {
+    text-align: center;
+}
+
 .santa-container {
   max-width: 600px;
   margin: 20px auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border: 2px solid #c41e3a;
+  position: relative;
+}
+
+.santa-container::before {
+  content: "🎄";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  font-size: 2em;
+}
+
+.santa-container::after {
+  content: "🎁";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  font-size: 2em;
 }
 
 .form-group {
@@ -37,36 +70,92 @@ title: Secret Santa Generator
 .form-group label {
   display: block;
   margin-bottom: 5px;
+  color: #c41e3a;
+  font-weight: bold;
 }
 
-.form-group textarea {
+.form-group textarea,
+.form-group input[type="date"] {
   width: 100%;
   padding: 8px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
 }
 
-.form-group input[type="date"] {
-  padding: 8px;
+.form-group textarea:focus,
+.form-group input[type="date"]:focus {
+  border-color: #c41e3a;
+  outline: none;
 }
 
 .generate-button {
-  background: #0366d6;
+  background: #c41e3a !important;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  border: 2px solid #8b0000;
+  padding: 12px 24px;
+  border-radius: 25px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 .generate-button:hover {
-  background: #045cb5;
+  background: #8b0000 !important;
+  transform: scale(1.05);
 }
 
 .result-container {
   margin-top: 20px;
   padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 2px solid #006400;
+  border-radius: 8px;
+  background: #fff;
 }
+
+.result-container h3 {
+  color: #006400;
+  text-align: center;
+  margin-top: 0;
+}
+
+.result-container p {
+  padding: 10px;
+  border-bottom: 1px dashed #ddd;
+  margin: 0;
+}
+
+.result-container p:last-child {
+  border-bottom: none;
+}
+
+.snowflakes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.snowflake {
+  color: #aae3fa;
+  font-size: 1.5em;
+  position: absolute;
+  top: -10%;
+  animation: fall 10s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10%) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+.snowflake:nth-of-type(2n) { animation-delay: 2s; left: 20%; }
+.snowflake:nth-of-type(3n) { animation-delay: 4s; left: 40%; }
+.snowflake:nth-of-type(4n) { animation-delay: 6s; left: 60%; }
+.snowflake:nth-of-type(5n) { animation-delay: 8s; left: 80%; }
 </style>
 
 <script>
