@@ -183,14 +183,12 @@ title: Secret Santa Generator
   text-align: center;
   font-size: 2em;
   margin: 20px 0;
-  animation: drumroll 0.1s infinite;
 }
 
 .recipient-reveal {
   text-align: center;
   font-size: 2.5em;
   color: #c41e3a;
-  opacity: 0;
   animation: poof 1s forwards;
   animation-delay: 3s;
 }
@@ -289,9 +287,9 @@ function showParticipantView(names, date, santa) {
     <div class="santa-talk">
       <p>🎅 Ho ho ho ${assignment.santa}!</p>
       <p>I heard you're doing Secret Santa with ${otherParticipants} on ${dateStr}!</p>
-      <p>I've carefully selected someone special for you to give a gift to...</p>
+      <p>I've carefully selected someone special for you ...</p>
     </div>
-    <div class="drumroll">🥁 🥁 🥁</div>
+    <div class="drumroll">🦌 🦌 🦌 🛷</div>
     <div class="recipient-reveal">${assignment.recipient}</div>
     <div class="santa-talk" style="margin-top: 20px;">
       <p>Make them happy with a thoughtful gift! 🎁</p>
