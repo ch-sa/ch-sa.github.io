@@ -37,6 +37,7 @@ title: Secret Santa Generator
     <li><strong>No Account Needed:</strong> Just enter names and date - that's it!</li>
     <li><strong>Deterministic Matching:</strong> The same participants and date will always generate the same assignments. This means the organizer cannot manipulate the results as the same calculation is done every time the link is opened.</li>
     <li><strong>Private & Secure:</strong> All matching happens in your browser - no data is stored on any server.</li>
+    <li><strong>Verifiable Results:</strong> Each assignment has a validation code. All participants should see the same code - if not, someone might have tampered with the assignments!</li>
   </ul>
 </div>
 
@@ -241,6 +242,13 @@ title: Secret Santa Generator
 .info-box li:last-child {
   margin-bottom: 0;
 }
+
+.validation-code {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 0.8em;
+  font-style: italic;
+}
 </style>
 
 <script>
@@ -311,6 +319,13 @@ function generateAssignments(names, date) {
   }));
 }
 
+function generateValidationHash(assignments, date) {
+  // Sort assignments to ensure consistent hash
+  const sortedAssignments = [...assignments].sort((a, b) => a.santa.localeCompare(b.santa));
+  const assignmentString = sortedAssignments.map(a => `${a.santa}->${a.recipient}`).join(',');
+  return Random.hash(assignmentString + date).toString(16).slice(0, 6);
+}
+
 function showParticipantView(names, date, santa) {
   const assignments = generateAssignments(names, date);
   const assignment = assignments.find(a => a.santa === santa);
@@ -328,6 +343,7 @@ function showParticipantView(names, date, santa) {
   });
   
   const otherParticipants = names.filter(n => n !== santa).join(', ');
+  const validationHash = generateValidationHash(assignments, date);
   
   document.getElementById('assignments').innerHTML = `
     <div class="santa-talk">
@@ -341,16 +357,19 @@ function showParticipantView(names, date, santa) {
       <p>Make them happy with a thoughtful gift! 🎁</p>
       <p style="font-size: 0.8em;">- Santa Claus 🎅</p>
     </div>
+    <p class="validation-code">Validation Code: <code>${validationHash}</code></p>
   `;
 }
 
 function showOrganizerView(names, date) {
+  const assignments = generateAssignments(names, date);
+  const validationHash = generateValidationHash(assignments, date);
   const baseUrl = window.location.href.split('?')[0];
   const params = new URLSearchParams();
   params.set('names', encodeURIComponent(names.join(',')));
   params.set('date', date);
   
-  const links = generateAssignments(names, date)
+  const links = assignments
     .map(({santa}) => {
       const santaParams = new URLSearchParams(params);
       santaParams.set('santa', santa);
@@ -361,7 +380,10 @@ function showOrganizerView(names, date) {
     .join('');
 
   document.getElementById('assignments').innerHTML = 
-    '<p>Share these links with each participant:</p>' + links;
+    `<p>Share these links with each participant:</p>
+     ${links}
+     <p style="margin-top: 20px;">Validation Code: <code>${validationHash}</code></p>
+     <p style="font-size: 0.8em;">All participants should see this same code</p>`;
 }
 
 function updateFromUrl() {
