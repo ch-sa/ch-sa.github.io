@@ -46,23 +46,6 @@ title: Secret Santa Generator
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
   border: 2px solid #c41e3a;
-  position: relative;
-}
-
-.santa-container::before {
-  content: "🎄";
-  position: absolute;
-  left: -30px;
-  top: 50%;
-  font-size: 2em;
-}
-
-.santa-container::after {
-  content: "🎁";
-  position: absolute;
-  right: -30px;
-  top: 50%;
-  font-size: 2em;
 }
 
 .form-group {
@@ -308,7 +291,9 @@ function showOrganizerView(names, date) {
     .map(({santa}) => {
       const santaParams = new URLSearchParams(params);
       santaParams.set('santa', santa);
-      return `<p><strong>${santa}'s link:</strong><br><span class="participant-link">${baseUrl}?${santaParams}</span></p>`;
+      const emojis = ['🎅', '🎄', '🎁', '❄️', '⛄', '🦌'];
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      return `<p>${randomEmoji} <a href="${baseUrl}?${santaParams}">Secret Santa for ${santa}</a></p>`;
     })
     .join('');
 
