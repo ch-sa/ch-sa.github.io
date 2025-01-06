@@ -681,7 +681,7 @@ title: Feiertags Diff
                 `DTEND;VALUE=DATE:${date}`,
                 `STATUS:TENTATIVE`,
                 `SUMMARY:${conflict.holiday} (Konflikt)`,
-                `DESCRIPTION:Unterschiedliche Feiertage in: ${states}`,
+                `DESCRIPTION;ALTREP="data:text/html,Unterschiedliche Feiertage in: ${states}.%3Cbr%3E%3Cbr%3EGeneriert%20mit%20%3Ca%20href%3D%22${window.location.href}%22%3EFeiertags-Diff%3C%2Fa%3E.":Unterschiedliche Feiertage in: ${states}.\n\nGeneriert mit ${window.location.href}.`,
                 'END:VEVENT'
             ].join('\r\n');
         }),
