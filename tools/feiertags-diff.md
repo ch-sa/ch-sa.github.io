@@ -574,6 +574,11 @@ title: Feiertags Diff
     `;
   }
 
+  function getWeekdaySuffix(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('de-DE', { weekday: 'short' });
+  }
+
   function compareHolidays() {
     const baseState = document.getElementById('base-state').value;
     let compareStates = Array.from(document.querySelectorAll('input[name="compare-state"]:checked')).map(el => el.value);
@@ -610,7 +615,7 @@ title: Feiertags Diff
       const baseHoliday = baseHolidays.find(h => h.date === date);
       const baseTd = document.createElement('td');
       const dateTd = document.createElement('td');
-      dateTd.textContent = date;
+      dateTd.textContent = `${date} (${getWeekdaySuffix(date)})`;
 
       let hasDiff = false;
 
