@@ -455,7 +455,8 @@ title: Feiertags Diff
   let holidays = {};
 
   async function fetchHolidays() {
-    const response = await fetch('https://date.nager.at/api/v3/PublicHolidays/2024/DE');
+    const currentYear = new Date().getFullYear();
+    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`);
     const data = await response.json();
     
     // Complete mapping of state codes to full names
