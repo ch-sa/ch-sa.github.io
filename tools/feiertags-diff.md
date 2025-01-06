@@ -454,13 +454,7 @@ title: Feiertags Diff
 <script>
   let holidays = {};
 
-  async function fetchHolidays() {
-    const currentYear = new Date().getFullYear();
-    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`);
-    const data = await response.json();
-    
-    // Complete mapping of state codes to full names
-    const stateMapping = {
+  const STATE_TO_NAME = {
       'DE-BW': 'Baden-Württemberg',
       'DE-BY': 'Bayern',
       'DE-BE': 'Berlin',
@@ -479,8 +473,18 @@ title: Feiertags Diff
       'DE-TH': 'Thüringen'
     };
 
+  const NAME_TO_STATE = Object.entries(STATE_TO_NAME).reduce((acc, [abbr, name]) => {
+    acc[name] = abbr;
+    return acc;
+  }, {});
+
+  async function fetchHolidays() {
+    const currentYear = new Date().getFullYear();
+    const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`);
+    const data = await response.json();    
+
     // Initialize holidays object
-    holidays = Object.values(stateMapping).reduce((acc, state) => {
+    holidays = Object.values(STATE_TO_NAME).reduce((acc, state) => {
       acc[state] = [];
       return acc;
     }, {});
