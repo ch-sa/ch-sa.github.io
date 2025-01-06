@@ -507,7 +507,7 @@ title: Feiertags Diff
       // Add holiday to specific states
       if (holiday.counties) {
         holiday.counties.forEach(county => {
-          const stateName = stateMapping[county];
+          const stateName = STATE_TO_NAME[county];
           if (stateName && holidays[stateName]) {
             holidays[stateName].push({...holidayData});
           }
@@ -675,7 +675,9 @@ title: Feiertags Diff
         ...conflicts.map(conflict => {
             const date = conflict.date.replace(/-/g, '');
             const uid = `${date}-${Math.random().toString(36).substr(2, 9)}`;
-            const states = conflict.states.join(', ');
+            const shortStatesWithHoliday = conflict.statesWithHoliday.map(state => NAME_TO_STATE[state].split("-")[1]).join(', ');
+            const statesWithHoliday = conflict.statesWithHoliday.join(', ');
+            const statesWithoutHoliday = conflict.statesWithoutHoliday.join(', ');
             
             return [
                 'BEGIN:VEVENT',
@@ -684,8 +686,10 @@ title: Feiertags Diff
                 `DTSTART;VALUE=DATE:${date}`,
                 `DTEND;VALUE=DATE:${date}`,
                 `STATUS:TENTATIVE`,
-                `SUMMARY:${conflict.holiday} (Konflikt)`,
-                `DESCRIPTION;ALTREP="data:text/html,Unterschiedliche Feiertage in: ${states}.%3Cbr%3E%3Cbr%3EGeneriert%20mit%20%3Ca%20href%3D%22${window.location.href}%22%3EFeiertags-Diff%3C%2Fa%3E.":Unterschiedliche Feiertage in: ${states}.\n\nGeneriert mit ${window.location.href}.`,
+                `SUMMARY:${conflict.holiday} (Only in ${shortStatesWithHoliday}!)`,
+                `DESCRIPTION;ALTREP="data:text/html,${conflict.holiday} is a public holiday in
+                ${statesWithHoliday} but not in ${statesWithoutHoliday}.%3Cbr%3E%3Cbr%3EGeneriert%20mit%20%3Ca%20href%3D%22${window.location.href}%22%3EFeiertags-Diff%3C%2Fa%3E.":Der ${conflict.holiday} is a public holiday in
+                ${statesWithHoliday} but not in ${statesWithoutHoliday}.\n\nGenerated with ${window.location.href}.`,
                 'END:VEVENT'
             ].join('\r\n');
         }),
@@ -710,10 +714,14 @@ function downloadICS() {
                 return row.cells[idx].textContent;
             });
             
+            const statesWithHoliday = states.filter((state, idx) => stateHolidays[idx] !== 'Kein Feiertag');
+            const statesWithoutHoliday = states.filter((state, idx) => stateHolidays[idx] === 'Kein Feiertag');
+
             conflicts.push({
                 date: date,
                 holiday: stateHolidays.find(h => h !== 'Kein Feiertag') || 'Feiertags-Konflikt',
-                states: states
+                statesWithHoliday: statesWithHoliday,
+                statesWithoutHoliday: statesWithoutHoliday
             });
         }
     });
