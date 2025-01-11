@@ -70,4 +70,7 @@ js: script.js
 
 <button id="download-ics" class="download-button">Export Diff Feiertage in Kalender (.ics)</button>
 
-<p class="disclaimer">Co-Created with some ✨, not yet optimized for mobile!</p>
+<p class="disclaimer">
+  Co-Created with some ✨, not yet optimized for mobile.
+  Improve me <a href="https://github.com/ch-sa/ch-sa.github.io/tree/master/tools/feiertags-diff">on GitHub</a>!
+</p>
