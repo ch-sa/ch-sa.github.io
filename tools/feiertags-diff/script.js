@@ -94,7 +94,6 @@ function generateDiff(data, selectedStates) {
       ),
     });
   }
-  console.dir(diff); // TODO
   return diff;
 }
 
@@ -265,8 +264,6 @@ function generateICS(selectedStates) {
       }),
     "END:VCALENDAR",
   ].join("\r\n");
-
-  console.dir(icsContent);
 
   return icsContent;
 }
