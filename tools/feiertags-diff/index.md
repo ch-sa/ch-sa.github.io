@@ -1,6 +1,7 @@
 ---
 title: Feiertags Diff
 css: style.css
+js: script.js
 ---
 
 <div class="form-container">
@@ -70,5 +71,3 @@ css: style.css
 <button id="download-ics" class="download-button">Export Diff Feiertage in Kalender (.ics)</button>
 
 <p class="disclaimer">Created with the help of some ✨ and not yet reviewed, treat with care!</p>
-
-<script src="script.js"></script>
