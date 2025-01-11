@@ -1,4 +1,6 @@
-let holidays = {};
+/* -------------------------------------------------------------------------- */
+/*                              GLOBAL VARIABLES                              */
+/* -------------------------------------------------------------------------- */
 
 const STATE_TO_NAME = {
   "DE-BW": "Baden-Württemberg",
@@ -27,123 +29,22 @@ const NAME_TO_STATE = Object.entries(STATE_TO_NAME).reduce(
   {}
 );
 
-async function fetchHolidays() {
-  const currentYear = new Date().getFullYear();
-  const response = await fetch(
-    `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`
-  );
-  const data = await response.json();
+let holidayDiff = [];
+let currentState;
+let incomingStates;
 
-  // Initialize holidays object
-  holidays = Object.values(STATE_TO_NAME).reduce((acc, state) => {
-    acc[state] = [];
-    return acc;
-  }, {});
+/* -------------------------------------------------------------------------- */
+/*                                   HELPERS                                  */
+/* -------------------------------------------------------------------------- */
 
-  // Transform API data into required format
-  data.forEach((holiday) => {
-    const holidayData = {
-      date: holiday.date,
-      name: holiday.localName,
-    };
-
-    // If holiday is global, add it to all states
-    if (holiday.global) {
-      Object.keys(holidays).forEach((state) => {
-        holidays[state].push({ ...holidayData });
-      });
-      return;
-    }
-
-    // Add holiday to specific states
-    if (holiday.counties) {
-      holiday.counties.forEach((county) => {
-        const stateName = STATE_TO_NAME[county];
-        if (stateName && holidays[stateName]) {
-          holidays[stateName].push({ ...holidayData });
-        }
-      });
-    }
-  });
-
-  // Sort holidays by date for each state
-  Object.keys(holidays).forEach((state) => {
-    holidays[state].sort((a, b) => a.date.localeCompare(b.date));
-  });
-
-  compareHolidays();
-}
-
-function getQueryParams() {
-  const params = new URLSearchParams(window.location.search);
-  return {
-    currentState: params.get("current"),
-    incomingStates: params.getAll("incoming"),
-  };
-}
-
-function updateURL(baseState, compareStates) {
-  const params = new URLSearchParams();
-  params.set("current", baseState);
-  compareStates.forEach((state) => params.append("incoming", state));
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  window.history.pushState({}, "", newUrl);
-}
-
-function getNextHoliday() {
-  const today = new Date().toISOString().split("T")[0];
-  const allHolidays = Object.values(holidays).flat();
-  const futureHolidays = allHolidays.filter((holiday) => holiday.date >= today);
-  futureHolidays.sort((a, b) => new Date(a.date) - new Date(b.date));
-  return futureHolidays[0];
-}
-
-function updateNextHolidaySection() {
-  const nextHoliday = getNextHoliday();
-  if (!nextHoliday) return;
-
-  const baseState = document.getElementById("base-state").value;
-  const compareStates = Array.from(
-    document.querySelectorAll('input[name="compare-state"]:checked')
-  ).map((el) => el.value);
-  const selectedStates = [baseState, ...compareStates];
-
-  const statesWithHoliday = selectedStates.filter((state) =>
-    holidays[state].some((holiday) => holiday.date === nextHoliday.date)
-  );
-  const statesWithoutHoliday = selectedStates.filter(
-    (state) =>
-      !holidays[state].some((holiday) => holiday.date === nextHoliday.date)
-  );
-
-  const formatStateList = (states) => {
-    if (states.length === 0) return "";
-    if (states.length === 1) return states[0];
-    const lastState = states[states.length - 1];
-    const otherStates = states.slice(0, -1);
-    return `${otherStates.join(", ")} oder ${lastState}`;
-  };
-
-  const nextHolidayDiv = document.getElementById("next-holiday");
-  nextHolidayDiv.innerHTML = `
-      Nächster Feiertag ist <strong>${nextHoliday.name} am ${
-    nextHoliday.date
-  }</strong>
-      ${
-        statesWithHoliday.length
-          ? `in ${formatStateList(
-              statesWithHoliday.map((state) => `${state} 😎`)
-            )}`
-          : ""
-      }
-      ${
-        statesWithoutHoliday.length
-          ? `und nicht in ${formatStateList(
-              statesWithoutHoliday.map((state) => `${state} 👨‍💻`)
-            )}`
-          : ""
-      }.
-    `;
+function enumerationText(elements, lastSeparator) {
+  if (elements.length === 0) return "";
+  if (elements.length === 1) {
+    return elements[0];
+  }
+  return `${elements.slice(0, -1).join(", ")} ${lastSeparator} ${elements.at(
+    -1
+  )}`;
 }
 
 function getWeekdaySuffix(dateString) {
@@ -151,78 +52,157 @@ function getWeekdaySuffix(dateString) {
   return date.toLocaleDateString("de-DE", { weekday: "short" });
 }
 
-function compareHolidays() {
-  const baseState = document.getElementById("base-state").value;
-  let compareStates = Array.from(
-    document.querySelectorAll('input[name="compare-state"]:checked')
-  ).map((el) => el.value);
+/* -------------------------------------------------------------------------- */
+/*                                    LOGIC                                   */
+/* -------------------------------------------------------------------------- */
 
-  updateURL(baseState, compareStates);
+async function fetchHolidays() {
+  const currentYear = new Date().getFullYear();
+  const response = await fetch(
+    `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`
+  );
+  const data = await response.json();
 
-  const baseHolidays = holidays[baseState] || [];
-  const holidaysTableBody = document.getElementById("holidays-table-body");
-  const holidaysTableHead = document.querySelector("#holidays-table thead tr");
-  const baseStateHeader = document.getElementById("base-state-header");
+  compareHolidays(data);
+}
 
-  holidaysTableBody.innerHTML = "";
-  baseStateHeader.textContent = `Current: ${baseState}`;
-  holidaysTableHead.innerHTML = `<th>Date</th><th id="base-state-header">Current: ${baseState}</th>`;
+function generateDiff(data, selectedStates) {
+  const diff = [];
+  for (const holiday of data) {
+    let statesWithHoliday;
 
-  // Remove the base state from the compare states if it is selected
-  compareStates = compareStates.filter((state) => state !== baseState);
+    if (holiday.global) {
+      statesWithHoliday = selectedStates;
+    } else {
+      statesWithHoliday = holiday.counties
+        ?.map((c) => STATE_TO_NAME[c])
+        .filter((s) => selectedStates.includes(s));
+      if (statesWithHoliday.length === 0) {
+        continue;
+      }
+    }
 
-  compareStates.forEach((state) => {
-    const th = document.createElement("th");
-    th.textContent = `Incoming: ${state}`;
-    holidaysTableHead.appendChild(th);
-  });
+    diff.push({
+      date: holiday.date,
+      nameDe: holiday.localName,
+      nameEn: holiday.name,
+      states: statesWithHoliday,
+      stateCodes: statesWithHoliday.map((state) => NAME_TO_STATE[state]),
+      conflict: !(
+        selectedStates.every((state) => statesWithHoliday.includes(state)) ||
+        selectedStates.every((state) => !statesWithHoliday.includes(state))
+      ),
+    });
+  }
+  console.dir(diff); // TODO
+  return diff;
+}
 
-  const allDates = new Set(baseHolidays.map((holiday) => holiday.date));
-  compareStates.forEach((state) => {
-    holidays[state].forEach((holiday) => allDates.add(holiday.date));
-  });
+function updateNextHolidaySection() {
+  function getNextHoliday() {
+    const today = new Date().toISOString().split("T")[0];
+    return holidayDiff.find((holiday) => holiday.date >= today);
+  }
 
-  const sortedDates = Array.from(allDates).sort(
-    (a, b) => new Date(a) - new Date(b)
+  const nextHoliday = getNextHoliday();
+  if (!nextHoliday) return;
+
+  const selectedStates = [currentState, ...incomingStates];
+  const statesWithHoliday = nextHoliday.states;
+  const statesWithoutHoliday = selectedStates.filter(
+    (state) => !statesWithHoliday.includes(state)
   );
 
-  sortedDates.forEach((date) => {
-    const tr = document.createElement("tr");
-    const baseHoliday = baseHolidays.find((h) => h.date === date);
-    const baseTd = document.createElement("td");
-    const dateTd = document.createElement("td");
-    dateTd.textContent = `${date} (${getWeekdaySuffix(date)})`;
-
-    let hasDiff = false;
-
-    if (baseHoliday) {
-      baseTd.textContent = `${baseHoliday.name}`;
-    } else {
-      baseTd.textContent = "Kein Feiertag";
-      baseTd.classList.add("removed");
-      hasDiff = true;
+  const nextHolidayDiv = document.getElementById("next-holiday");
+  nextHolidayDiv.innerHTML = `
+    Nächster Feiertag ist <strong>${nextHoliday.nameDe}</strong> am <strong>${
+    nextHoliday.date
+  }</strong>
+    ${
+      statesWithHoliday.length
+        ? `in ${enumerationText(
+            statesWithHoliday.map((state) => `${state} 😎`),
+            "oder"
+          )}`
+        : ""
     }
-    tr.appendChild(dateTd);
-    tr.appendChild(baseTd);
+    ${
+      statesWithoutHoliday.length
+        ? `und nicht in ${enumerationText(
+            statesWithoutHoliday.map((state) => `${state} 👨‍💻`),
+            "oder"
+          )}`
+        : ""
+    }.
+  `;
+}
 
-    compareStates.forEach((state) => {
-      const td = document.createElement("td");
-      const stateHoliday = holidays[state].find((h) => h.date === date);
-      if (stateHoliday) {
-        td.textContent = `${stateHoliday.name}`;
-        if (!baseHoliday) {
-          td.classList.add("added");
-          hasDiff = true;
+function compareHolidays(data) {
+  function updateURL(baseState, compareStates) {
+    const params = new URLSearchParams();
+    params.set("current", baseState);
+    compareStates.forEach((state) => params.append("incoming", state));
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, "", newUrl);
+  }
+
+  currentState = document.getElementById("base-state").value;
+  incomingStates = Array.from(
+    document.querySelectorAll('input[name="compare-state"]:checked')
+  ).map((el) => el.value);
+  // Remove the base state from the compare states if it is selected.
+  incomingStates = incomingStates.filter((state) => state !== currentState);
+  updateURL(currentState, incomingStates);
+
+  // Table head
+  const currentHead = document.getElementById("base-state-header");
+  currentHead.textContent = `Current: ${currentState}`;
+  const incomingHead = document.querySelector("#holidays-table thead tr");
+  incomingHead.innerHTML = `<th>Date</th><th id="base-state-header">Current: ${currentState}</th>`;
+  incomingStates.forEach((state) => {
+    const th = document.createElement("th");
+    th.textContent = `Incoming: ${state}`;
+    incomingHead.appendChild(th);
+  });
+
+  // Table body
+  holidayDiff = generateDiff(data, [currentState, ...incomingStates]);
+
+  const holidaysTableBody = document.getElementById("holidays-table-body");
+  holidaysTableBody.innerHTML = "";
+  holidayDiff.forEach((holiday) => {
+    const tr = document.createElement("tr");
+
+    const isHolidayInState = (state) => holiday.states.includes(state);
+    function addHolidayCell(stateName, cellTd) {
+      if (isHolidayInState(stateName)) {
+        cellTd.textContent = holiday.nameDe;
+        if (stateName !== currentState && !isHolidayInState(currentState)) {
+          cellTd.classList.add("added");
         }
       } else {
-        td.textContent = "Kein Feiertag";
-        td.classList.add("removed");
-        hasDiff = true;
+        cellTd.textContent = "Kein Feiertag";
+        cellTd.classList.add("removed");
       }
-      tr.appendChild(td);
+      tr.appendChild(cellTd);
+    }
+
+    // Header column
+    const dateTd = document.createElement("td");
+    dateTd.textContent = `${holiday.date} (${getWeekdaySuffix(holiday.date)})`;
+    tr.appendChild(dateTd);
+
+    // Base column
+    const currentTd = document.createElement("td");
+    addHolidayCell(currentState, currentTd);
+
+    // Incoming column
+    incomingStates.forEach((state) => {
+      const td = document.createElement("td");
+      addHolidayCell(state, td);
     });
 
-    if (hasDiff) {
+    if (holiday.conflict) {
       dateTd.innerHTML += ' <span class="warning-icon">⚠️</span>';
     }
 
@@ -234,93 +214,65 @@ function compareHolidays() {
     .querySelectorAll('input[name="compare-state"]')
     .forEach((checkbox) => {
       checkbox.parentElement.style.display =
-        checkbox.value === baseState ? "none" : "flex";
+        checkbox.value === currentState ? "none" : "flex";
     });
 
   updateNextHolidaySection();
 }
 
-function generateICS(conflicts) {
+function generateICS(selectedStates) {
   const now = new Date().toISOString().replace(/[-:.]/g, "").split("T")[0];
+
+  const hashCode = (s) =>
+    s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
 
   const icsContent = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
     "PRODID:-//Feiertags-Diff//DE",
-    ...conflicts.map((conflict) => {
-      const date = conflict.date.replace(/-/g, "");
-      const endDate = new Date(conflict.date);
-      endDate.setDate(endDate.getDate() + 1);
-      console.log(date);
-      console.log(endDate);
-      const endDateString = endDate
-        .toISOString()
-        .split("T")[0]
-        .replaceAll("-", "");
-      console.log(endDateString);
-      const uid = `${date}-${Math.random().toString(36).substr(2, 9)}`;
-      const shortStatesWithHoliday = conflict.statesWithHoliday
-        .map((state) => NAME_TO_STATE[state].split("-")[1])
-        .join(", ");
-      const statesWithHoliday = conflict.statesWithHoliday.join(", ");
-      const statesWithoutHoliday = conflict.statesWithoutHoliday.join(", ");
+    ...holidayDiff
+      .filter((h) => h.conflict)
+      .map((holiday) => {
+        const iCalDate = holiday.date.replaceAll("-", "");
+        const eventHash = hashCode(selectedStates.join(""));
+        const uid = `${iCalDate}-${eventHash}`;
+        const stateCodesWithHoliday = holiday.stateCodes
+          .map((name) => name.split("-")[1])
+          .join(", ");
+        const statesWithHoliday = enumerationText(holiday.states, "and");
+        const statesWithoutHoliday = enumerationText(
+          selectedStates.filter((s) => !statesWithHoliday.includes(s)),
+          "and"
+        );
 
-      return [
-        "BEGIN:VEVENT",
-        `UID:${uid}`,
-        `DTSTAMP:${now}T000000Z`,
-        `DTSTART;VALUE=DATE:${date}`,
-        `DTEND;VALUE=DATE:${endDateString}`,
-        `STATUS:TENTATIVE`,
-        `SUMMARY:${conflict.holiday} (Only in ${shortStatesWithHoliday}!)`,
-        `DESCRIPTION;ALTREP="data:text/html,${conflict.holiday} is a public holiday in
-                ${statesWithHoliday} but not in ${statesWithoutHoliday}.%3Cbr%3E%3Cbr%3EGeneriert%20mit%20%3Ca%20href%3D%22${window.location.href}%22%3EFeiertags-Diff%3C%2Fa%3E.":Der ${conflict.holiday} is a public holiday in
-                ${statesWithHoliday} but not in ${statesWithoutHoliday}.\n\nGenerated with ${window.location.href}.`,
-        "END:VEVENT",
-      ].join("\r\n");
-    }),
+        const descriptionText =
+          `${holiday.nameDe} (${holiday.nameEn}) is a public holiday in ${statesWithHoliday}` +
+          (statesWithoutHoliday ? ` but not in ${statesWithoutHoliday}.` : `.`);
+        return [
+          "BEGIN:VEVENT",
+          `UID:${uid}`,
+          `DTSTAMP:${now}T000000Z`,
+          `DTSTART;VALUE=DATE:${iCalDate}`,
+          `STATUS:TENTATIVE`,
+          `SUMMARY:${holiday.nameDe} (Only in ${stateCodesWithHoliday}!)`,
+          `DESCRIPTION;ALTREP="data:text/html,` +
+            descriptionText +
+            `%3Cbr%3E%3Cbr%3EGeneriert%20mit%20%3Ca%20href%3D%22${window.location.href}%22%3EFeiertags-Diff%3C%2Fa%3E."` +
+            `:${descriptionText}\n\n` +
+            `Generated with ${window.location.href}.`,
+          "END:VEVENT",
+        ].join("\r\n");
+      }),
     "END:VCALENDAR",
   ].join("\r\n");
+
+  console.dir(icsContent);
 
   return icsContent;
 }
 
 function downloadICS() {
-  const baseState = document.getElementById("base-state").value;
-  const compareStates = Array.from(
-    document.querySelectorAll('input[name="compare-state"]:checked')
-  ).map((el) => el.value);
-  const conflicts = [];
-
-  // Get all dates with differences
-  document.querySelectorAll("#holidays-table-body tr").forEach((row) => {
-    if (row.querySelector(".warning-icon")) {
-      const date = row.cells[0].textContent.trim().replace(" ⚠️", "");
-      const states = [baseState, ...compareStates];
-      const stateHolidays = states.map((state) => {
-        const idx = states.indexOf(state) + 1;
-        return row.cells[idx].textContent;
-      });
-
-      const statesWithHoliday = states.filter(
-        (state, idx) => stateHolidays[idx] !== "Kein Feiertag"
-      );
-      const statesWithoutHoliday = states.filter(
-        (state, idx) => stateHolidays[idx] === "Kein Feiertag"
-      );
-
-      conflicts.push({
-        date: date,
-        holiday:
-          stateHolidays.find((h) => h !== "Kein Feiertag") ||
-          "Feiertags-Konflikt",
-        statesWithHoliday: statesWithHoliday,
-        statesWithoutHoliday: statesWithoutHoliday,
-      });
-    }
-  });
-
-  const icsContent = generateICS(conflicts);
+  const icsContent = generateICS([currentState, ...incomingStates]);
   const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
@@ -328,6 +280,14 @@ function downloadICS() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    currentState: params.get("current"),
+    incomingStates: params.getAll("incoming"),
+  };
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
