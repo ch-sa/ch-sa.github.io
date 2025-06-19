@@ -304,4 +304,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   document
     .getElementById("download-ics")
     .addEventListener("click", downloadICS);
+  
+  // Add listeners to update table on selection change
+  document.getElementById("base-state").addEventListener("change", fetchHolidays);
+  document.querySelectorAll('input[name="compare-state"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", fetchHolidays);
+  });
 });
