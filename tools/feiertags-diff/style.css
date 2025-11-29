@@ -22,15 +22,7 @@
     max-width: none;
   }
 
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
 
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
 
   .next-holiday {
     font-size: 14px;
@@ -50,12 +42,6 @@
     margin: 15px 0;
     padding: 12px;
     font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
   }
 
   /* Card layout for table on mobile */
@@ -163,12 +149,36 @@ tr:nth-child(odd) td:nth-child(2) {
 .horizontal-checkboxes {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   padding-left: 0;
 }
-.horizontal-checkboxes label {
-  display: flex;
-  gap: 5px;
+
+.checkbox-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-chip label {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.checkbox-chip label:hover {
+  background-color: #f0f0f0;
+}
+
+.checkbox-chip input[type="checkbox"]:checked + label {
+  background-color: #4b7ab1;
+  color: white;
+  border-color: #0366d6;
 }
 .next-holiday {
   margin: 20px 0;

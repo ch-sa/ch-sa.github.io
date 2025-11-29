@@ -29,22 +29,70 @@ js: script.js
   <div class="form-group">
     <label for="compare-states" class="form-label">Incoming:</label>
     <div id="compare-states" class="horizontal-checkboxes">
-      <label><input type="checkbox" name="compare-state" value="Baden-Württemberg" onchange="compareHolidays()"> Baden-Württemberg</label>
-      <label><input type="checkbox" name="compare-state" value="Bayern" onchange="compareHolidays()"> Bayern</label>
-      <label><input type="checkbox" name="compare-state" value="Berlin" onchange="compareHolidays()"> Berlin</label>
-      <label><input type="checkbox" name="compare-state" value="Brandenburg" onchange="compareHolidays()"> Brandenburg</label>
-      <label><input type="checkbox" name="compare-state" value="Bremen" onchange="compareHolidays()"> Bremen</label>
-      <label><input type="checkbox" name="compare-state" value="Hamburg" onchange="compareHolidays()"> Hamburg</label>
-      <label><input type="checkbox" name="compare-state" value="Hessen" onchange="compareHolidays()"> Hessen</label>
-      <label><input type="checkbox" name="compare-state" value="Mecklenburg-Vorpommern" onchange="compareHolidays()"> Mecklenburg-Vorpommern</label>
-      <label><input type="checkbox" name="compare-state" value="Niedersachsen" onchange="compareHolidays()"> Niedersachsen</label>
-      <label><input type="checkbox" name="compare-state" value="Nordrhein-Westfalen" onchange="compareHolidays()"> Nordrhein-Westfalen</label>
-      <label><input type="checkbox" name="compare-state" value="Rheinland-Pfalz" onchange="compareHolidays()"> Rheinland-Pfalz</label>
-      <label><input type="checkbox" name="compare-state" value="Saarland" onchange="compareHolidays()"> Saarland</label>
-      <label><input type="checkbox" name="compare-state" value="Sachsen" onchange="compareHolidays()"> Sachsen</label>
-      <label><input type="checkbox" name="compare-state" value="Sachsen-Anhalt" onchange="compareHolidays()"> Sachsen-Anhalt</label>
-      <label><input type="checkbox" name="compare-state" value="Schleswig-Holstein" onchange="compareHolidays()"> Schleswig-Holstein</label>
-      <label><input type="checkbox" name="compare-state" value="Thüringen" onchange="compareHolidays()"> Thüringen</label>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-baden-wuerttemberg" name="compare-state" value="Baden-Württemberg" onchange="compareHolidays()">
+        <label for="state-baden-wuerttemberg">Baden-Württemberg</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-bayern" name="compare-state" value="Bayern" onchange="compareHolidays()">
+        <label for="state-bayern">Bayern</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-berlin" name="compare-state" value="Berlin" onchange="compareHolidays()">
+        <label for="state-berlin">Berlin</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-brandenburg" name="compare-state" value="Brandenburg" onchange="compareHolidays()">
+        <label for="state-brandenburg">Brandenburg</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-bremen" name="compare-state" value="Bremen" onchange="compareHolidays()">
+        <label for="state-bremen">Bremen</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-hamburg" name="compare-state" value="Hamburg" onchange="compareHolidays()">
+        <label for="state-hamburg">Hamburg</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-hessen" name="compare-state" value="Hessen" onchange="compareHolidays()">
+        <label for="state-hessen">Hessen</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-mecklenburg-vorpommern" name="compare-state" value="Mecklenburg-Vorpommern" onchange="compareHolidays()">
+        <label for="state-mecklenburg-vorpommern">Mecklenburg-Vorpommern</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-niedersachsen" name="compare-state" value="Niedersachsen" onchange="compareHolidays()">
+        <label for="state-niedersachsen">Niedersachsen</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-nordrhein-westfalen" name="compare-state" value="Nordrhein-Westfalen" onchange="compareHolidays()">
+        <label for="state-nordrhein-westfalen">Nordrhein-Westfalen</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-rheinland-pfalz" name="compare-state" value="Rheinland-Pfalz" onchange="compareHolidays()">
+        <label for="state-rheinland-pfalz">Rheinland-Pfalz</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-saarland" name="compare-state" value="Saarland" onchange="compareHolidays()">
+        <label for="state-saarland">Saarland</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-sachsen" name="compare-state" value="Sachsen" onchange="compareHolidays()">
+        <label for="state-sachsen">Sachsen</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-sachsen-anhalt" name="compare-state" value="Sachsen-Anhalt" onchange="compareHolidays()">
+        <label for="state-sachsen-anhalt">Sachsen-Anhalt</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-schleswig-holstein" name="compare-state" value="Schleswig-Holstein" onchange="compareHolidays()">
+        <label for="state-schleswig-holstein">Schleswig-Holstein</label>
+      </div>
+      <div class="checkbox-chip">
+        <input type="checkbox" id="state-thueringen" name="compare-state" value="Thüringen" onchange="compareHolidays()">
+        <label for="state-thueringen">Thüringen</label>
+      </div>
     </div>
   </div>
 </div>
