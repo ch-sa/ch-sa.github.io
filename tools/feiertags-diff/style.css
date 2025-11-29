@@ -37,15 +37,6 @@
     padding: 10px;
   }
 
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
-  }
-
   /* Adjust table for better mobile view */
   th,
   td {
@@ -66,200 +57,49 @@
     margin: 0 -15px;
     width: calc(100% + 30px);
   }
-}
 
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
+  /* Card layout for table on mobile */
+  #holidays-table thead {
+    display: none;
   }
 
-  .form-group {
-    flex-direction: column;
+  #holidays-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #e1e4e8;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
   }
-
-  .form-label {
-    margin-bottom: 5px;
-  }
-
-  #base-state {
-    width: 100%;
-    max-width: none;
-  }
-
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .horizontal-checkboxes label {
-    margin-left: 0;
+  
+  #holidays-table th, 
+  #holidays-table td {
+    position: static !important; /* Override sticky */
+    left: auto !important;
+    background: transparent !important;
+    border: none;
+    min-width: unset;
+    padding: 10px 15px;
     font-size: 14px;
   }
 
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
+  #holidays-table td {
+    display: block;
+    text-align: right;
+    border-bottom: 1px solid #e1e4e8;
   }
 
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
+  #holidays-table tr td:last-child {
+      border-bottom: none;
   }
 
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
-  }
-
-  .form-group {
-    flex-direction: column;
-  }
-
-  .form-label {
-    margin-bottom: 5px;
-  }
-
-  #base-state {
-    width: 100%;
-    max-width: none;
-  }
-
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
-
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
-  }
-
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
-  }
-
-  .form-group {
-    flex-direction: column;
-  }
-
-  .form-label {
-    margin-bottom: 5px;
-  }
-
-  #base-state {
-    width: 100%;
-    max-width: none;
-  }
-
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
-
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
-  }
-
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
+  #holidays-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+    margin-right: 15px;
   }
 }
 

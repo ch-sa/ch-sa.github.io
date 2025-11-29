@@ -188,16 +188,19 @@ function compareHolidays(data) {
 
     // Header column
     const dateTd = document.createElement("td");
+    dateTd.setAttribute("data-label", "Date");
     dateTd.textContent = `${holiday.date} (${getWeekdaySuffix(holiday.date)})`;
     tr.appendChild(dateTd);
 
     // Base column
     const currentTd = document.createElement("td");
+    currentTd.setAttribute("data-label", `Current: ${currentState}`);
     addHolidayCell(currentState, currentTd);
 
     // Incoming column
     incomingStates.forEach((state) => {
       const td = document.createElement("td");
+      td.setAttribute("data-label", `Incoming: ${state}`);
       addHolidayCell(state, td);
     });
 
