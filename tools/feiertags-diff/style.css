@@ -61,7 +61,6 @@
   #holidays-table td {
     position: static !important; /* Override sticky */
     left: auto !important;
-    background: transparent !important;
     border: none;
     min-width: unset;
     display: flex;
@@ -90,7 +89,7 @@
   }
 
   /* Card Header */
-  #holidays-table td[data-holiday-name] {
+  #holidays-table tr td:first-child {
     background-color: #f6f8fa;
   }
 
@@ -160,10 +159,6 @@ th:nth-child(2) {
   background: #f6f8fa;
 }
 
-tr:nth-child(odd) td:first-child,
-tr:nth-child(odd) td:nth-child(2) {
-  background: #fafafa;
-}
 .added {
   background-color: #e6ffed;
   color: #22863a;
