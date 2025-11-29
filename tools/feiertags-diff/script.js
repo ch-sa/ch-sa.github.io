@@ -130,22 +130,22 @@ function updateNextHolidaySection() {
 
   const nextHolidayDiv = document.getElementById("next-holiday");
   nextHolidayDiv.innerHTML = `
-    Nächster Feiertag ist <strong>${nextHoliday.nameDe}</strong> am <strong>${
+    Next public holiday is <strong>${nextHoliday.nameDe}</strong> on <strong>${
     nextHoliday.date
   }</strong>
     ${
       statesWithHoliday.length
         ? `in ${enumerationText(
             statesWithHoliday.map((state) => `${state} 😎`),
-            "oder"
+            "or"
           )}`
         : ""
     }
     ${
       statesWithoutHoliday.length
-        ? `und nicht in ${enumerationText(
+        ? `and not in ${enumerationText(
             statesWithoutHoliday.map((state) => `${state} 👨‍💻`),
-            "oder"
+            "or"
           )}`
         : ""
     }.

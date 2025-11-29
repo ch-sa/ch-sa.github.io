@@ -128,5 +128,6 @@ js: script.js
 
 <p class="disclaimer">
   Co-Created with some ✨.
+  Only considers state-level public holidays.
   Improve me <a href="https://github.com/ch-sa/ch-sa.github.io/tree/master/tools/feiertags-diff">on GitHub</a>!
 </p>
