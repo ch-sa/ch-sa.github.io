@@ -9,19 +9,15 @@
   --success-green-bg: #e6ffed;
   --danger-red: #cb2431;
   --danger-red-bg: #ffeef0;
-  --warning-red: #d9534f;
   
   /* Background Colors */
   --bg-white: #ffffff;
   --bg-light: #f6f8fa;
   --bg-info: #f0f7fb;
-  --bg-hover-light: #f0f0f0;
-  --bg-row-alt: #fafafa;
   
   /* Border Colors */
-  --border-gray: #ccc;
   --border-light: #e1e4e8;
-  --border-lightgray: #cccccc;
+  --border-heavy: #cccccc;
   --border-hover-light: #f0f0f0;
   
   /* Text Colors */
@@ -73,9 +69,10 @@
     td:nth-child(2) {
       position: sticky;
       left: 200px; /* same as min-width */
-      border-right: 2px solid var(--border-lightgray);
+      border-right: 2px solid var(--border-heavy);
       z-index: 4;
       background: var(--bg-white);
+      box-shadow: 8px 0 12px -4px rgba(0, 0, 0, 0.15);
     }
 
     th:first-child,
@@ -113,7 +110,7 @@
 .checkbox-chip label {
   display: inline-block;
   padding: 6px 12px;
-  border: 1px solid var(--border-gray);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -140,7 +137,6 @@
   max-width: 100%;
 }
 .warning-icon {
-  color: var(--warning-red);
   margin-left: 5px;
 }
 .form-container {
@@ -187,7 +183,7 @@
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1.5em;
-  border: 1px solid var(--border-gray);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
   padding: 6px 32px 6px 12px;
   font-size: 1em;
