@@ -1,7 +1,199 @@
+:root {
+  /* Primary Colors */
+  --primary-blue: #0366d6;
+  --primary-blue-hover: #045cb5;
+  --primary-blue-light: #4b7ab1;
+  
+  /* Status Colors */
+  --success-green: #22863a;
+  --success-green-bg: #e6ffed;
+  --danger-red: #cb2431;
+  --danger-red-bg: #ffeef0;
+  --warning-red: #d9534f;
+  
+  /* Background Colors */
+  --bg-white: #ffffff;
+  --bg-light: #f6f8fa;
+  --bg-info: #f0f7fb;
+  --bg-hover-light: #f0f0f0;
+  --bg-row-alt: #fafafa;
+  
+  /* Border Colors */
+  --border-gray: #ccc;
+  --border-light: #e1e4e8;
+  --border-lightgray: #cccccc;
+  --border-hover-light: #f0f0f0;
+  
+  /* Text Colors */
+  --text-muted: #666;
+  
+  /* Info Box Color */
+  --info-blue: #3498db;
+}
+
 .main-content {
   max-width: 80%;
   margin: 0 auto;
 }
+
+
+
+
+
+@media (min-width: 769px) {
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  #holidays-table {
+    th,
+    td {
+      padding: 8px;
+      border: none;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      text-align: left;
+      min-width: 200px;
+    }
+
+    /* Sticky first two columns */
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: var(--bg-white);
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      position: sticky;
+      left: 200px; /* same as min-width */
+      border-right: 2px solid var(--border-lightgray);
+      z-index: 4;
+      background: var(--bg-white);
+    }
+
+    th:first-child,
+    th:nth-child(2) {
+      background: var(--bg-light);
+    }
+  }
+
+}
+
+
+.added {
+  background-color: var(--success-green-bg);
+  color: var(--success-green);
+}
+.removed {
+  background-color: var(--danger-red-bg);
+  color: var(--danger-red);
+}
+.horizontal-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 0;
+}
+
+.checkbox-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-chip label {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--border-gray);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.checkbox-chip label:hover {
+  background-color: var(--border-hover-light);
+}
+
+.checkbox-chip input[type="checkbox"]:checked + label {
+  background-color: var(--primary-blue-light);
+  color: var(--bg-white);
+  border-color: var(--primary-blue);
+}
+.next-holiday {
+  margin: 20px 0;
+  background-color: var(--bg-info);
+  border-left: 5px solid var(--info-blue);
+  padding: 15px;
+  padding-right: 25px;
+  border-radius: 3px;
+  display: inline-block;
+  max-width: 100%;
+}
+.warning-icon {
+  color: var(--warning-red);
+  margin-left: 5px;
+}
+.form-container {
+  margin-bottom: 20px;
+}
+.form-group {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.form-group label {
+  padding-top: 5px;
+}
+.form-label {
+  min-width: 6em;
+  font-weight: bold;
+}
+.disclaimer {
+  text-align: center;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-top: 2em;
+  font-size: 0.8em;
+}
+.download-button {
+  margin: 20px 0;
+  padding: 10px 20px;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.download-button:hover {
+  background-color: var(--primary-blue-hover);
+}
+
+.dropdown-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em;
+  border: 1px solid var(--border-gray);
+  border-radius: 16px;
+  padding: 6px 32px 6px 12px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 
 @media (max-width: 768px) {
   .main-content {
@@ -37,7 +229,7 @@
   #holidays-table tr {
     display: block;
     margin-bottom: 1rem;
-    border: 1px solid #e1e4e8;
+    border: 1px solid var(--border-light);
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
@@ -51,7 +243,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 15px;
-    border-bottom: 1px solid #e1e4e8;
+    border-bottom: 1px solid var(--border-light);
     font-size: 0; /* Hide original text content */
   }
 
@@ -75,7 +267,7 @@
 
   /* Card Header */
   #holidays-table tr td:first-child {
-    background-color: #f6f8fa;
+    background-color: var(--bg-light);
   }
 
   #holidays-table td[data-holiday-name]::before,
@@ -90,161 +282,11 @@
   /* Card Body Colors */
   #holidays-table td.added::before,
   #holidays-table td.added::after {
-    color: #22863a;
+    color: var(--success-green);
   }
 
   #holidays-table td.removed::before,
   #holidays-table td.removed::after {
-    color: #cb2431;
+    color: var(--danger-red);
   }
-}
-
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  table-layout: fixed;
-}
-
-#holidays-table {
-  th,
-  td {
-    padding: 8px;
-    border: none;
-    border-top: 1px solid #eceff1;
-    border-bottom: 1px solid #eceff1;
-    text-align: left;
-    min-width: 200px;
-  }
-
-  /* Sticky first two columns */
-  th:first-child,
-  td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 2;
-    background: white;
-  }
-
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: sticky;
-    left: 200px; /* same as min-width */
-    border-right: 2px solid lightgray;
-    background: white;
-  }
-
-  th:first-child,
-  th:nth-child(2) {
-    background: #f6f8fa;
-  }
-
-}
-
-
-.added {
-  background-color: #e6ffed;
-  color: #22863a;
-}
-.removed {
-  background-color: #ffeef0;
-  color: #cb2431;
-}
-.horizontal-checkboxes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding-left: 0;
-}
-
-.checkbox-chip input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkbox-chip label {
-  display: inline-block;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  user-select: none;
-}
-
-.checkbox-chip label:hover {
-  background-color: #f0f0f0;
-}
-
-.checkbox-chip input[type="checkbox"]:checked + label {
-  background-color: #4b7ab1;
-  color: white;
-  border-color: #0366d6;
-}
-.next-holiday {
-  margin: 20px 0;
-  background-color: #f0f7fb;
-  border-left: 5px solid #3498db;
-  padding: 15px;
-  padding-right: 25px;
-  border-radius: 3px;
-  display: inline-block;
-  max-width: 100%;
-}
-.warning-icon {
-  color: #d9534f;
-  margin-left: 5px;
-}
-.form-container {
-  margin-bottom: 20px;
-}
-.form-group {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-.form-group label {
-  padding-top: 5px;
-}
-.form-label {
-  min-width: 6em;
-  font-weight: bold;
-}
-.disclaimer {
-  text-align: center;
-  font-style: italic;
-  color: #666;
-  margin-top: 2em;
-  font-size: 0.8em;
-}
-.download-button {
-  margin: 20px 0;
-  padding: 10px 20px;
-  background-color: #0366d6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.download-button:hover {
-  background-color: #045cb5;
-}
-
-.dropdown-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1.5em;
-  border: 1px solid #ccc;
-  border-radius: 16px;
-  padding: 6px 32px 6px 12px;
-  font-size: 1em;
-  cursor: pointer;
 }
