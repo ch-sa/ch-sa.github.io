@@ -116,9 +116,9 @@ js: script.js
   </table>
 </div>
 
-<button id="download-ics" class="download-button">Export Diff Feiertage in Kalender (.ics)</button>
+<button id="download-ics" class="download-button">Export conflicts into calender (.ics)</button>
 
 <p class="disclaimer">
-  Co-Created with some ✨, not yet optimized for mobile.
+  Co-Created with some ✨.
   Improve me <a href="https://github.com/ch-sa/ch-sa.github.io/tree/master/tools/feiertags-diff">on GitHub</a>!
 </p>
