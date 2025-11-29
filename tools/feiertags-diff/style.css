@@ -22,21 +22,6 @@
     max-width: none;
   }
 
-
-
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
   .download-button {
     width: 100%;
     margin: 15px 0;
@@ -114,50 +99,48 @@
   }
 }
 
-.diff-container {
-  overflow-x: auto;
-  position: relative;
-}
 table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-  overflow: hidden;
 }
 
-th,
-td {
-  padding: 8px;
-  border: 1px solid #e1e4e8;
-  text-align: left;
-  min-width: 200px;
+#holidays-table {
+  th,
+  td {
+    padding: 8px;
+    border: none;
+    border-top: 1px solid #eceff1;
+    border-bottom: 1px solid #eceff1;
+    text-align: left;
+    min-width: 200px;
+  }
+
+  /* Sticky first two columns */
+  th:first-child,
+  td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: white;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    position: sticky;
+    left: 200px; /* same as min-width */
+    border-right: 2px solid lightgray;
+    background: white;
+  }
+
+  th:first-child,
+  th:nth-child(2) {
+    background: #f6f8fa;
+  }
+
 }
 
-/* Sticky first two columns */
-th:first-child,
-td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  background: white;
-  border-right: 2px solid #e1e4e8;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-  position: sticky;
-  left: 200px; /* same as min-width */
-  z-index: 1;
-  background: white;
-  border-right: 2px solid #e1e4e8;
-}
-
-th:first-child,
-th:nth-child(2) {
-  z-index: 3;
-  background: #f6f8fa;
-}
 
 .added {
   background-color: #e6ffed;
