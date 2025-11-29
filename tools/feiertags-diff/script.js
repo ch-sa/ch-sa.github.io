@@ -176,11 +176,13 @@ function compareHolidays(data) {
     function addHolidayCell(stateName, cellTd) {
       if (isHolidayInState(stateName)) {
         cellTd.textContent = holiday.nameDe;
+        cellTd.setAttribute("data-mobile-content", "✓");
         if (stateName !== currentState && !isHolidayInState(currentState)) {
           cellTd.classList.add("added");
         }
       } else {
         cellTd.textContent = "Kein Feiertag";
+        cellTd.setAttribute("data-mobile-content", "✗");
         cellTd.classList.add("removed");
       }
       tr.appendChild(cellTd);
@@ -188,16 +190,21 @@ function compareHolidays(data) {
 
     // Header column
     const dateTd = document.createElement("td");
-    dateTd.textContent = `${holiday.date} (${getWeekdaySuffix(holiday.date)})`;
+    const dateString = `${holiday.date} (${getWeekdaySuffix(holiday.date)})`;
+    dateTd.setAttribute("data-label", dateString);
+    dateTd.setAttribute("data-holiday-name", holiday.nameDe);
+    dateTd.textContent = dateString;
     tr.appendChild(dateTd);
 
     // Base column
     const currentTd = document.createElement("td");
+    currentTd.setAttribute("data-label", `Current: ${currentState}`);
     addHolidayCell(currentState, currentTd);
 
     // Incoming column
     incomingStates.forEach((state) => {
       const td = document.createElement("td");
+      td.setAttribute("data-label", `Incoming: ${state}`);
       addHolidayCell(state, td);
     });
 

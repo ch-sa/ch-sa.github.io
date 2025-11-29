@@ -22,28 +22,11 @@
     max-width: none;
   }
 
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
 
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
 
   .next-holiday {
     font-size: 14px;
     padding: 10px;
-  }
-
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
   }
 
   /* Adjust table for better mobile view */
@@ -61,205 +44,73 @@
     font-size: 16px;
   }
 
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
+  /* Card layout for table on mobile */
+  #holidays-table thead {
+    display: none;
   }
 
-  .form-group {
-    flex-direction: column;
+  #holidays-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #e1e4e8;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
   }
 
-  .form-label {
-    margin-bottom: 5px;
+  #holidays-table td {
+    position: static !important; /* Override sticky */
+    left: auto !important;
+    border: none;
+    min-width: unset;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e1e4e8;
+    font-size: 0; /* Hide original text content */
   }
 
-  #base-state {
-    width: 100%;
-    max-width: none;
+  #holidays-table tr td:last-child {
+    border-bottom: none;
   }
 
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
+  #holidays-table td::before,
+  #holidays-table td::after {
+    font-size: 14px; /* Restore font size for pseudo-elements */
   }
 
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
+  #holidays-table td::before {
+    content: attr(data-label);
+    text-align: left;
   }
 
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
+  #holidays-table td::after {
+    content: attr(data-mobile-content);
   }
 
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
+  /* Card Header */
+  #holidays-table tr td:first-child {
+    background-color: #f6f8fa;
   }
 
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
+  #holidays-table td[data-holiday-name]::before,
+  #holidays-table td[data-holiday-name]::after {
+    font-weight: bold;
   }
 
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
+  #holidays-table td[data-holiday-name]::after {
+    content: attr(data-holiday-name);
   }
 
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
+  /* Card Body Colors */
+  #holidays-table td.added::before,
+  #holidays-table td.added::after {
+    color: #22863a;
   }
 
-  .form-group {
-    flex-direction: column;
-  }
-
-  .form-label {
-    margin-bottom: 5px;
-  }
-
-  #base-state {
-    width: 100%;
-    max-width: none;
-  }
-
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
-
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
-  }
-
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
-  }
-}
-
-@media (max-width: 768px) {
-  .main-content {
-    max-width: 95%;
-    margin: 0 auto;
-  }
-
-  .form-group {
-    flex-direction: column;
-  }
-
-  .form-label {
-    margin-bottom: 5px;
-  }
-
-  #base-state {
-    width: 100%;
-    max-width: none;
-  }
-
-  .horizontal-checkboxes {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .horizontal-checkboxes label {
-    margin-left: 0;
-    font-size: 14px;
-  }
-
-  .next-holiday {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  /* Disable sticky columns on mobile */
-  th:first-child,
-  td:first-child,
-  th:nth-child(2),
-  td:nth-child(2) {
-    position: static;
-    min-width: 120px;
-  }
-
-  /* Adjust table for better mobile view */
-  th,
-  td {
-    padding: 6px;
-    min-width: 120px;
-    font-size: 14px;
-  }
-
-  .download-button {
-    width: 100%;
-    margin: 15px 0;
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  /* Make the table container full-width on mobile */
-  .diff-container {
-    margin: 0 -15px;
-    width: calc(100% + 30px);
+  #holidays-table td.removed::before,
+  #holidays-table td.removed::after {
+    color: #cb2431;
   }
 }
 
@@ -308,10 +159,6 @@ th:nth-child(2) {
   background: #f6f8fa;
 }
 
-tr:nth-child(odd) td:first-child,
-tr:nth-child(odd) td:nth-child(2) {
-  background: #fafafa;
-}
 .added {
   background-color: #e6ffed;
   color: #22863a;
@@ -323,12 +170,36 @@ tr:nth-child(odd) td:nth-child(2) {
 .horizontal-checkboxes {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   padding-left: 0;
 }
-.horizontal-checkboxes label {
-  display: flex;
-  gap: 5px;
+
+.checkbox-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-chip label {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  user-select: none;
+}
+
+.checkbox-chip label:hover {
+  background-color: #f0f0f0;
+}
+
+.checkbox-chip input[type="checkbox"]:checked + label {
+  background-color: #4b7ab1;
+  color: white;
+  border-color: #0366d6;
 }
 .next-holiday {
   margin: 20px 0;
@@ -377,4 +248,20 @@ tr:nth-child(odd) td:nth-child(2) {
 }
 .download-button:hover {
   background-color: #045cb5;
+}
+
+#base-state {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1.5em;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 6px 32px 6px 12px;
+  font-size: 1em;
+  cursor: pointer;
 }
