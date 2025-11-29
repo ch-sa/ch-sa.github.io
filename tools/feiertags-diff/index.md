@@ -6,8 +6,15 @@ js: script.js
 
 <div class="form-container">
   <div class="form-group">
+    <label for="year" class="form-label">Year:</label>
+    <select id="year" class="dropdown-select" name="year" onchange="compareHolidays()">
+      <!-- Year options will be dynamically populated -->
+    </select>
+  </div>
+
+  <div class="form-group">
     <label for="base-state" class="form-label">Current:</label>
-    <select id="base-state" name="base-state" onchange="compareHolidays()">
+    <select id="base-state" class="dropdown-select" name="base-state" onchange="compareHolidays()">
       <option value="Baden-Württemberg">Baden-Württemberg</option>
       <option value="Bayern">Bayern</option>
       <option value="Berlin">Berlin</option>
@@ -26,6 +33,7 @@ js: script.js
       <option value="Thüringen">Thüringen</option>
     </select>
   </div>
+
   <div class="form-group">
     <label for="compare-states" class="form-label">Incoming:</label>
     <div id="compare-states" class="horizontal-checkboxes">

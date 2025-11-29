@@ -250,7 +250,7 @@ th:nth-child(2) {
   background-color: #045cb5;
 }
 
-#base-state {
+.dropdown-select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
