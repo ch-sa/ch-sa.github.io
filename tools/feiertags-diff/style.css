@@ -57,35 +57,61 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
   }
-  
-  #holidays-table th, 
+
   #holidays-table td {
     position: static !important; /* Override sticky */
     left: auto !important;
     background: transparent !important;
     border: none;
     min-width: unset;
+    display: flex;
+    justify-content: space-between;
     padding: 10px 15px;
-    font-size: 14px;
-  }
-
-  #holidays-table td {
-    display: block;
-    text-align: right;
     border-bottom: 1px solid #e1e4e8;
+    font-size: 0; /* Hide original text content */
   }
 
   #holidays-table tr td:last-child {
-      border-bottom: none;
+    border-bottom: none;
+  }
+
+  #holidays-table td::before,
+  #holidays-table td::after {
+    font-size: 14px; /* Restore font size for pseudo-elements */
   }
 
   #holidays-table td::before {
     content: attr(data-label);
-    float: left;
-    font-weight: bold;
     text-align: left;
-    white-space: nowrap;
-    margin-right: 15px;
+  }
+
+  #holidays-table td::after {
+    content: attr(data-mobile-content);
+  }
+
+  /* Card Header */
+  #holidays-table td[data-holiday-name] {
+    background-color: #f6f8fa;
+  }
+
+  #holidays-table td[data-holiday-name]::before,
+  #holidays-table td[data-holiday-name]::after {
+    font-weight: bold;
+  }
+
+  #holidays-table td[data-holiday-name]::after {
+    content: attr(data-holiday-name);
+  }
+
+  /* Card Body Colors */
+  #holidays-table td.added::before,
+  #holidays-table td.added::after {
+    color: #22863a;
+  }
+
+  #holidays-table td.removed::before,
+  #holidays-table td.removed::after {
+    color: #cb2431;
   }
 }
 
