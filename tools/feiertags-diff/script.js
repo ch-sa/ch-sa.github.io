@@ -52,14 +52,30 @@ function getWeekdaySuffix(dateString) {
   return date.toLocaleDateString("de-DE", { weekday: "short" });
 }
 
+function populateYearDropdown() {
+  const currentYear = new Date().getFullYear();
+  const yearSelect = document.getElementById("year");
+  yearSelect.innerHTML = "";
+  
+  for (let i = 0; i <= 5; i++) {
+    const year = currentYear + i;
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = year;
+    yearSelect.appendChild(option);
+  }
+  
+  yearSelect.value = currentYear.toString();
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    LOGIC                                   */
 /* -------------------------------------------------------------------------- */
 
 async function fetchHolidays() {
-  const currentYear = new Date().getFullYear();
+  const selectedYear = document.getElementById("year").value;
   const response = await fetch(
-    `https://date.nager.at/api/v3/PublicHolidays/${currentYear}/DE`
+    `https://date.nager.at/api/v3/PublicHolidays/${selectedYear}/DE`
   );
   const data = await response.json();
 
@@ -114,22 +130,22 @@ function updateNextHolidaySection() {
 
   const nextHolidayDiv = document.getElementById("next-holiday");
   nextHolidayDiv.innerHTML = `
-    Nächster Feiertag ist <strong>${nextHoliday.nameDe}</strong> am <strong>${
+    Next public holiday is <strong>${nextHoliday.nameDe}</strong> on <strong>${
     nextHoliday.date
   }</strong>
     ${
       statesWithHoliday.length
         ? `in ${enumerationText(
             statesWithHoliday.map((state) => `${state} 😎`),
-            "oder"
+            "or"
           )}`
         : ""
     }
     ${
       statesWithoutHoliday.length
-        ? `und nicht in ${enumerationText(
+        ? `and not in ${enumerationText(
             statesWithoutHoliday.map((state) => `${state} 👨‍💻`),
-            "oder"
+            "or"
           )}`
         : ""
     }.
@@ -295,6 +311,9 @@ function getQueryParams() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Populate year dropdown first
+  populateYearDropdown();
+  
   const { currentState, incomingStates } = getQueryParams();
   if (currentState) {
     document.getElementById("base-state").value = currentState;
@@ -314,6 +333,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Add listeners to update table on selection change
   document.getElementById("base-state").addEventListener("change", fetchHolidays);
+  document.getElementById("year").addEventListener("change", fetchHolidays);
   document.querySelectorAll('input[name="compare-state"]').forEach((checkbox) => {
     checkbox.addEventListener("change", fetchHolidays);
   });
